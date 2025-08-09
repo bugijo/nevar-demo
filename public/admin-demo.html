@@ -11,11 +11,11 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
 tailwind.config = {
-  theme: { extend: {
+  theme:{ extend:{
     fontFamily:{ sans:['Inter','ui-sans-serif','system-ui'] },
     colors:{
       base:'#0b0f14', card:'#11161c', edge:'rgba(255,255,255,.06)',
-      ink:'rgba(255,255,255,.88)', mute:'rgba(255,255,255,.58)',
+      ink:'rgba(255,255,255,.9)', mute:'rgba(255,255,255,.58)',
       brand:{500:'#00c2ff',600:'#00a9e0'}, ok:'#34d399', warn:'#f59e0b', danger:'#ef4444'
     },
     boxShadow:{ glow:'0 14px 48px rgba(0,194,255,.28)' }
@@ -23,7 +23,7 @@ tailwind.config = {
 }
 </script>
 <style>
-html,body{ background:#0b0f14; color:var(--ink,rgba(255,255,255,.92)); }
+html,body{ background:#0b0f14; color:var(--ink,rgba(255,255,255,.9)); }
 .card{ background:#11161c; border:1px solid rgba(255,255,255,.06); border-radius:16px }
 .soft{ background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.05); border-radius:14px }
 .btn{ display:inline-flex; align-items:center; justify-content:center; padding:.85rem 1rem; border-radius:12px; font-weight:700; }
@@ -37,47 +37,19 @@ html,body{ background:#0b0f14; color:var(--ink,rgba(255,255,255,.92)); }
 /* Barra inferior fixa */
 .sticky-bottom{
   position:fixed; left:0; right:0; bottom:env(safe-area-inset-bottom);
-  z-index:30; /* menor que modal */
-  border-top:1px solid rgba(255,255,255,.08); background:rgba(11,15,20,.92); backdrop-filter:blur(10px)
+  z-index:30; border-top:1px solid rgba(255,255,255,.08);
+  background:rgba(11,15,20,.92); backdrop-filter:blur(10px)
 }
 .pad-tabbar{ padding-bottom:calc(84px + env(safe-area-inset-bottom)); }
 .tabm{ opacity:.85; transition:.15s } .tabm.tab-active{ color:#00c2ff; opacity:1 }
 
-/* listas em cards */
+/* listas */
 .kpi{ display:flex; flex-direction:column; gap:.25rem } .kpi .v{ font-size:1.6rem; font-weight:800 }
 .list-card{ border-radius:14px; border:1px solid rgba(255,255,255,.08); background:#0f141a; padding:.9rem }
-
-/* modal: em cima de tudo */
-.modal-backdrop{
-  position:fixed; inset:0; background:rgba(0,0,0,.6); display:flex; align-items:flex-end;
-  z-index:9999; /* acima de qualquer coisa */
-}
-@media (min-width:768px){ .modal-backdrop{ align-items:center; justify-content:center } }
-.modal{ width:100%; max-width:760px; background:#11161c; border:1px solid rgba(255,255,255,.08); border-radius:16px 16px 0 0; }
-@media (min-width:768px){ .modal{ border-radius:16px } }
-.modal-h{ padding:1rem 1.25rem; border-bottom:1px solid rgba(255,255,255,.08) }
-.modal-b{ padding:1rem 1.25rem; max-height:70vh; overflow:auto }
-.modal-f{ padding:1rem 1.25rem; border-top:1px solid rgba(255,255,255,.08) }
-
-/* assinatura */
-.sig-pad{ background:#0e1318; border:1px dashed rgba(255,255,255,.12); border-radius:12px }
-
-/* FAB */
-.fab{
-  position:fixed; right:16px; bottom:calc(100px + env(safe-area-inset-bottom));
-  background:#00c2ff; color:#001219; width:56px; height:56px; border-radius:16px;
-  display:grid; place-items:center; font-size:28px; box-shadow:0 16px 40px rgba(0,194,255,.35); z-index:40;
-}
-.fab:active{ transform: translateY(1px) }
-
-/* esconder UI ao abrir modal */
-.ui-hide{ opacity:0; transform:translateY(120%); pointer-events:none; transition:.2s }
+.list-card:active{ transform:scale(.995) }
 
 /* grid desktop */
 @media (min-width:1024px){ .container-grid{ grid-template-columns: 240px 1fr } }
-
-/* evita scroll da página quando modal estiver aberto */
-body.lock{ overflow:hidden }
 </style>
 </head>
 <body class="font-sans">
@@ -129,7 +101,7 @@ body.lock{ overflow:hidden }
           <h1 class="text-2xl font-extrabold mt-2">Painel • Visão Geral</h1>
           <p class="text-mute text-sm">Gerencie O.S., orçamentos, estoque e finanças.</p>
         </div>
-        <a class="hidden sm:inline-flex btn btn-primary" href="https://wa.me/5511999999999?text=Olá%20Nevar!%20Quero%20entender%20o%20sistema.">WhatsApp</a>
+        <a class="hidden sm:inline-flex btn btn-primary" href="https://wa.me/5511999999999?text=Olá%20Nevar!%20Quero%20entender%20o%20sistema." target="_blank">WhatsApp</a>
       </div>
     </div>
 
@@ -150,6 +122,7 @@ body.lock{ overflow:hidden }
 
       <section class="grid gap-4">
 
+        <!-- DASHBOARD -->
         <div id="tab-dashboard" class="card p-4">
           <h2 class="text-lg font-bold">Resumo</h2>
           <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
@@ -188,6 +161,7 @@ body.lock{ overflow:hidden }
           </div>
         </div>
 
+        <!-- O.S. -->
         <div id="tab-os" class="card p-4 hiddenEl">
           <div class="flex items-center justify-between">
             <h2 class="text-lg font-bold">Ordens de Serviço</h2>
@@ -196,21 +170,22 @@ body.lock{ overflow:hidden }
           <div id="osList" class="mt-3 grid gap-2"></div>
         </div>
 
+        <!-- ORÇAMENTOS -->
         <div id="tab-orcamentos" class="card p-4 hiddenEl">
           <div class="flex items-center justify-between">
             <h2 class="text-lg font-bold">Orçamentos</h2>
-            <div class="flex gap-2">
-              <button id="btnNovoOrc" class="btn btn-primary">Novo Orçamento</button>
-            </div>
+            <button id="btnNovoOrc" class="btn btn-primary">Novo Orçamento</button>
           </div>
           <div id="orcList" class="mt-3 grid gap-2"></div>
         </div>
 
+        <!-- ESTOQUE -->
         <div id="tab-estoque" class="card p-4 hiddenEl">
           <h2 class="text-lg font-bold">Estoque</h2>
           <div id="stkList" class="mt-3 grid gap-2"></div>
         </div>
 
+        <!-- FINANCEIRO -->
         <div id="tab-financeiro" class="card p-4 hiddenEl">
           <h2 class="text-lg font-bold">Financeiro</h2>
           <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mt-3">
@@ -221,6 +196,7 @@ body.lock{ overflow:hidden }
           <div id="finList" class="mt-3 grid gap-2"></div>
         </div>
 
+        <!-- RELATÓRIOS -->
         <div id="tab-relatorios" class="card p-4 hiddenEl">
           <h2 class="text-lg font-bold">Relatórios</h2>
           <ul class="mt-3 grid gap-2">
@@ -230,6 +206,7 @@ body.lock{ overflow:hidden }
           </ul>
         </div>
 
+        <!-- CMS / LEADS -->
         <div id="tab-cms" class="card p-4 hiddenEl">
           <div class="flex items-center justify-between">
             <h2 class="text-lg font-bold">Leads do Site</h2>
@@ -239,6 +216,7 @@ body.lock{ overflow:hidden }
           <div id="leadList" class="mt-3 grid gap-2"></div>
         </div>
 
+        <!-- USUÁRIOS -->
         <div id="tab-usuarios" class="card p-4 hiddenEl">
           <div class="flex items-center justify-between">
             <h2 class="text-lg font-bold">Usuários</h2>
@@ -247,16 +225,17 @@ body.lock{ overflow:hidden }
           <div id="usrList" class="mt-3 grid gap-2"></div>
         </div>
 
+        <!-- TÉCNICOS -->
         <div id="tab-tecnicos" class="card p-4 hiddenEl">
           <h2 class="text-lg font-bold">Tarefas do Técnico</h2>
           <div id="tecList" class="mt-3 grid gap-2"></div>
         </div>
+
       </section>
     </div>
   </section>
 
-  <button id="fab" class="fab" title="Nova O.S.">＋</button>
-
+  <!-- Barra inferior fixa -->
   <nav id="bottomBar" class="lg:hidden sticky-bottom">
     <div class="max-w-6xl mx-auto grid grid-cols-5 text-xs px-2" style="padding-bottom: env(safe-area-inset-bottom);">
       <button data-tab="dashboard"  class="m-1 py-3 text-center tabm">🏠<div>Home</div></button>
@@ -267,24 +246,6 @@ body.lock{ overflow:hidden }
     </div>
   </nav>
 </main>
-
-<!-- MODAL O.S. -->
-<div id="osModalWrap" class="modal-backdrop hiddenEl" aria-hidden="true">
-  <div class="modal w-full">
-    <div class="modal-h flex items-center justify-between">
-      <div class="font-bold" id="osModalTitle">O.S.</div>
-      <button id="osModalClose" class="btn btn-ghost">Fechar</button>
-    </div>
-    <div class="modal-b grid gap-3" id="osModalBody"></div>
-    <div class="modal-f flex items-center justify-between">
-      <button id="btnDelOS" class="btn btn-ghost">Excluir</button>
-      <div class="flex gap-2">
-        <button id="btnExportOS" class="btn btn-ghost">Exportar PDF</button>
-        <button id="btnSaveOS" class="btn btn-primary">Salvar</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 <script>
 /* ===== helpers ===== */
@@ -298,16 +259,16 @@ const hide = id => $('#'+id).classList.add('hiddenEl');
 
 /* ===== seed ===== */
 (function seed(){
-  if(!localStorage.getItem('demo_seed_v3')){
+  if(!localStorage.getItem('demo_seed_v4')){
     set('nevar_os', [
-      {id:'OS-101', cliente:'Restaurante Aurora', servico:'Câmara fria', status:'aberta', valor:3200, obs:'', fotos:[], ass:''},
-      {id:'OS-102', cliente:'Clínica Vita', servico:'VRF', status:'andamento', valor:12800, obs:'', fotos:[], ass:''},
-      {id:'OS-103', cliente:'Supermercado Max', servico:'Split', status:'andamento', valor:1800, obs:'', fotos:[], ass:''},
-      {id:'OS-104', cliente:'Hotel Blue', servico:'Preventiva', status:'concluida', valor:950, obs:'', fotos:[], ass:''}
+      {id:'OS-101', cliente:'Restaurante Aurora', servico:'Câmara fria', status:'aberta', valor:3200},
+      {id:'OS-102', cliente:'Clínica Vita', servico:'VRF', status:'andamento', valor:12800},
+      {id:'OS-103', cliente:'Supermercado Max', servico:'Split', status:'andamento', valor:1800},
+      {id:'OS-104', cliente:'Hotel Blue', servico:'Preventiva', status:'concluida', valor:950}
     ]);
     set('nevar_orc', [
-      {id:'ORC-7001', cliente:'Rest. Flor do Mar', item:'Split 24k + Instalação', status:'pendente', valor:4900, notas:''},
-      {id:'ORC-7002', cliente:'TechLab', item:'VRF 20TR', status:'enviado', valor:86000, notas:''}
+      {id:'ORC-7001', cliente:'Rest. Flor do Mar', item:'Split 24k + Instalação', status:'pendente', valor:4900},
+      {id:'ORC-7002', cliente:'TechLab', item:'VRF 20TR', status:'enviado', valor:86000}
     ]);
     set('nevar_stock', [
       {sku:'PE-001', nome:'Gás R410A', qtd:12, minimo:5},
@@ -324,7 +285,7 @@ const hide = id => $('#'+id).classList.add('hiddenEl');
       {tec:'Carlos', os:'OS-103', tarefa:'Instalar condensadora', status:'pendente'},
       {tec:'Fernanda', os:'OS-101', tarefa:'Ajuste termostato', status:'em execução'}
     ]);
-    localStorage.setItem('demo_seed_v3','1');
+    localStorage.setItem('demo_seed_v4','1');
   }
 })();
 
@@ -347,7 +308,7 @@ $('#loginForm').addEventListener('submit', e=>{
   e.preventDefault();
   const admin = JSON.parse(localStorage.getItem('nevar_admin')||'{}');
   if($('#loginEmail').value.trim()===admin.email && $('#loginPass').value.trim()===admin.senha){
-    setSession(true); hide('authSection'); show('app'); selectTab('dashboard'); refreshAll(); ensureModalClosed();
+    setSession(true); hide('authSection'); show('app'); selectTab('dashboard'); refreshAll();
   } else alert('Credenciais inválidas');
 });
 $('#btnLogout').addEventListener('click', ()=>{ localStorage.removeItem('nevar_session'); show('authSection'); hide('app'); });
@@ -363,11 +324,11 @@ function selectTab(name){
 }
 $('#menu')?.addEventListener('click', e=>{
   const b = e.target.closest('.tab'); if(!b) return;
-  selectTab(b.dataset.tab); refreshAll(); ensureModalClosed();
+  selectTab(b.dataset.tab); refreshAll();
 });
 document.querySelector('nav.sticky-bottom').addEventListener('click', e=>{
   const b = e.target.closest('.tabm'); if(!b) return;
-  selectTab(b.dataset.tab); refreshAll(); ensureModalClosed();
+  selectTab(b.dataset.tab); refreshAll();
 });
 
 /* ===== render ===== */
@@ -393,17 +354,16 @@ function renderKanban(){
   $('#kanbanE').innerHTML = col('and').map(item).join('');    $('#cE').textContent = col('and').length;
   $('#kanbanC').innerHTML = col('concluida').map(item).join(''); $('#cC').textContent = col('concluida').length;
 }
-function listify(arr, fields, clickable){
-  return arr.map(r => `<button class="list-card text-left" ${clickable? `data-id="${r.id}"` : ''}>
+function listify(arr, fields){
+  return arr.map(r => `<div class="list-card">
     ${fields.map(f => cardLine(f.label, f.fmt? f.fmt(r[f.key], r): (r[f.key]??''))).join('')}
-  </button>`).join('');
+  </div>`).join('');
 }
 function renderOS(){ 
   const os = get('nevar_os');
   $('#osList').innerHTML = listify(os, [
     {key:'id',label:'Código'},{key:'cliente',label:'Cliente'},{key:'servico',label:'Serviço'},
-    {key:'status',label:'Status'},{key:'valor',label:'Valor', fmt:v=>money(v)} ], true);
-  $$('#osList .list-card').forEach(btn => btn.addEventListener('click', ()=> openOSModal(btn.dataset.id)));
+    {key:'status',label:'Status'},{key:'valor',label:'Valor', fmt:v=>money(v)} ]);
 }
 function renderOrc(){ 
   const o = get('nevar_orc');
@@ -435,7 +395,7 @@ function renderTec(){ $('#tecList').innerHTML = listify(get('nevar_tec'), [
 
 function refreshAll(){ renderKPIs(); renderKanban(); renderOS(); renderOrc(); renderStock(); renderFin(); renderLeads(); renderUsers(); renderTec(); drawChart(); }
 
-/* ===== gráfico simples responsivo ===== */
+/* ===== gráfico simples ===== */
 function drawChart(){
   const c = document.getElementById('chart'), ctx = c.getContext('2d');
   const w = c.clientWidth, h = c.clientHeight; c.width=w; c.height=h;
@@ -446,177 +406,30 @@ function drawChart(){
   data.forEach((v,i)=>{ const x=pad + i*(bw+gap); const bh=(h-pad*2)*(v/max); ctx.fillStyle= i===data.length-1?'#00c2ff':'rgba(255,255,255,.5)'; ctx.fillRect(x, h-pad-bh, bw, bh); });
 }
 
-/* ===== util modal ===== */
-function ensureModalClosed(){
-  hide('osModalWrap');
-  document.body.classList.remove('lock');
-  $('#bottomBar')?.classList.remove('ui-hide');
-  $('#fab')?.classList.remove('ui-hide');
-}
-
-/* ===== MODAL O.S. ===== */
-let currentOSId = null, sigDrawing=false, sigLast=null;
-
-function openOSModal(id){
-  // abre somente se id válido
-  if(!id){ ensureModalClosed(); return; }
-  const os = get('nevar_os').find(x=>x.id===id);
-  if(!os){ ensureModalClosed(); return; }
-
-  currentOSId = id;
-  $('#osModalTitle').textContent = `O.S. ${os.id}`;
-  $('#osModalBody').innerHTML = `
-    <div class="grid gap-3">
-      <div class="grid grid-cols-2 gap-2">
-        <div>
-          <div class="text-mute text-xs mb-1">Cliente</div>
-          <input id="osCli" class="soft w-full px-3 py-3" value="${os.cliente}">
-        </div>
-        <div>
-          <div class="text-mute text-xs mb-1">Serviço</div>
-          <input id="osSrv" class="soft w-full px-3 py-3" value="${os.servico}">
-        </div>
-      </div>
-      <div class="grid grid-cols-2 gap-2">
-        <div>
-          <div class="text-mute text-xs mb-1">Status</div>
-          <select id="osSta" class="soft w-full px-3 py-3">
-            ${['aberta','andamento','concluida'].map(s=>`<option ${os.status===s?'selected':''} value="${s}">${s}</option>`).join('')}
-          </select>
-        </div>
-        <div>
-          <div class="text-mute text-xs mb-1">Valor</div>
-          <input id="osVal" type="number" class="soft w-full px-3 py-3" value="${os.valor}">
-        </div>
-      </div>
-      <div>
-        <div class="text-mute text-xs mb-1">Observações</div>
-        <textarea id="osObs" class="soft w-full px-3 py-3" rows="3" placeholder="Detalhes da visita, peça trocada, etc.">${os.obs||''}</textarea>
-      </div>
-
-      <div class="grid gap-2">
-        <div class="flex items-center justify-between">
-          <div class="font-semibold">Fotos</div>
-          <label class="btn btn-ghost cursor-pointer">
-            Adicionar <input id="osFotoUp" type="file" accept="image/*" class="hidden" multiple>
-          </label>
-        </div>
-        <div id="osFotos" class="grid grid-cols-4 gap-2">
-          ${(os.fotos||[]).map((src,i)=>`<div class="relative">
-              <img src="${src}" class="w-full h-20 object-cover rounded-md border border-white/10">
-              <button data-i="${i}" class="delImg absolute -top-2 -right-2 bg-danger text-white w-6 h-6 rounded-full">×</button>
-            </div>`).join('')}
-        </div>
-      </div>
-
-      <div>
-        <div class="flex items-center justify-between">
-          <div class="font-semibold">Assinatura do Cliente</div>
-          <button id="sigClear" class="btn btn-ghost">Limpar</button>
-        </div>
-        <canvas id="sig" class="sig-pad w-full h-40"></canvas>
-        ${os.ass? `<img id="sigPrev" src="${os.ass}" class="mt-2 max-h-24 rounded-md border border-white/10">` : `<img id="sigPrev" class="mt-2 hidden">`}
-      </div>
-    </div>
-  `;
-
-  // esconder UI e travar scroll
-  document.body.classList.add('lock');
-  $('#bottomBar')?.classList.add('ui-hide');
-  $('#fab')?.classList.add('ui-hide');
-
-  show('osModalWrap');
-
-  // fechar tocando fora do conteúdo
-  $('#osModalWrap').onclick = (e)=>{
-    if(e.target.id === 'osModalWrap'){ closeOSModal(); }
-  };
-
-  // upload de fotos
-  $('#osFotoUp').addEventListener('change', async (e)=>{
-    const files = [...e.target.files].slice(0,6);
-    const urls = [];
-    for(const f of files){ urls.push(await fileToDataUrl(f)); }
-    const all = (os.fotos||[]).concat(urls).slice(0,12);
-    os.fotos = all; saveCurrentOS(os); openOSModal(id); // re-render
-  });
-  $$('#osFotos .delImg').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      os.fotos.splice(+btn.dataset.i,1); saveCurrentOS(os); openOSModal(id);
-    });
-  });
-
-  // assinatura
-  const cvs = $('#sig'), ctx = cvs.getContext('2d');
-  resizeCanvasToDisplaySize(cvs);
-  if(os.ass){ const img = new Image(); img.onload=()=>ctx.drawImage(img,0,0,cvs.width,cvs.height); img.src=os.ass; }
-  cvs.addEventListener('pointerdown', e=>{ sigDrawing=true; sigLast=pt(cvs,e); });
-  cvs.addEventListener('pointermove', e=>{
-    if(!sigDrawing) return; const p=pt(cvs,e); ctx.lineCap='round'; ctx.strokeStyle='#00c2ff'; ctx.lineWidth=2.2;
-    ctx.beginPath(); ctx.moveTo(sigLast.x,sigLast.y); ctx.lineTo(p.x,p.y); ctx.stroke(); sigLast=p;
-  });
-  ['pointerup','pointerleave','pointercancel'].forEach(ev=>cvs.addEventListener(ev, ()=> sigDrawing=false));
-  $('#sigClear').addEventListener('click', ()=>{ ctx.clearRect(0,0,cvs.width,cvs.height); $('#sigPrev').classList.add('hidden') });
-
-  // salvar/fechar/excluir/exportar
-  $('#btnSaveOS').onclick = ()=>{
-    os.cliente = $('#osCli').value.trim();
-    os.servico = $('#osSrv').value.trim();
-    os.status  = $('#osSta').value;
-    os.valor   = parseFloat($('#osVal').value || '0');
-    os.obs     = $('#osObs').value.trim();
-    try { os.ass = cvs.toDataURL('image/png'); $('#sigPrev').src=os.ass; $('#sigPrev').classList.remove('hidden'); } catch(e){}
-    saveCurrentOS(os); closeOSModal(); refreshAll();
-  };
-  $('#osModalClose').onclick = closeOSModal;
-  $('#btnDelOS').onclick = ()=>{ if(confirm('Excluir esta O.S.?')){ const arr=get('nevar_os').filter(x=>x.id!==id); set('nevar_os',arr); closeOSModal(); refreshAll(); } };
-  $('#btnExportOS').onclick = ()=> exportOSPdf(os);
-}
-
-function closeOSModal(){ ensureModalClosed(); }
-
-function saveCurrentOS(os){ const arr = get('nevar_os').map(x=> x.id===os.id ? os : x); set('nevar_os', arr); }
-
-function fileToDataUrl(file){ return new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=rej; r.readAsDataURL(file); }); }
-function pt(c,e){ const r=c.getBoundingClientRect(); return {x: e.clientX - r.left, y: e.clientY - r.top}; }
-function resizeCanvasToDisplaySize(canvas){
-  const {width,height} = canvas.getBoundingClientRect();
-  const ratio = window.devicePixelRatio || 1;
-  canvas.width = Math.round(width * ratio);
-  canvas.height= Math.round(height * ratio);
-  const ctx = canvas.getContext('2d'); ctx.scale(ratio, ratio);
-}
-
-/* ===== Exportar PDF (via print) ===== */
-function exportOSPdf(os){
-  const win = window.open('', '_blank');
-  const fotos = (os.fotos||[]).slice(0,4).map(src=>`<img src="${src}" style="width:23%;height:100px;object-fit:cover;border-radius:8px;border:1px solid #ddd;margin-right:1%;">`).join('');
-  const ass = os.ass? `<img src="${os.ass}" style="max-height:80px;border:1px solid #ddd;border-radius:6px">` : '<em>Sem assinatura</em>';
-  win.document.write(`
-  <html>
-  <head><meta charset="utf-8"><title>${os.id} - Nevar</title>
-  <style>body{font-family:Inter,Arial,sans-serif;padding:24px;color:#111}.k{color:#555;width:130px;display:inline-block}.b{font-weight:700}.box{border:1px solid #ddd;border-radius:12px;padding:12px;margin-top:10px}</style></head>
-  <body>
-    <h2>Nevar — Ordem de Serviço</h2>
-    <div class="box"><span class="k">Código:</span><span class="b">${os.id}</span></div>
-    <div class="box"><span class="k">Cliente:</span>${os.cliente}</div>
-    <div class="box"><span class="k">Serviço:</span>${os.servico}</div>
-    <div class="box"><span class="k">Status:</span>${os.status}</div>
-    <div class="box"><span class="k">Valor:</span>${money(os.valor)}</div>
-    <div class="box"><div class="k">Observações:</div><div>${(os.obs||'').replace(/\n/g,'<br>')}</div></div>
-    <div class="box"><div style="margin-bottom:8px">Fotos:</div>${fotos || '<em>Sem fotos</em>'}</div>
-    <div class="box"><div style="margin-bottom:8px">Assinatura:</div>${ass}</div>
-    <script>window.print(); setTimeout(()=>window.close(), 500);<\/script>
-  </body></html>`);
-  win.document.close();
-}
+/* ===== ações simples (sem modal) ===== */
+document.addEventListener('click', e=>{
+  if(e.target.id==='btnNovaOS' || e.target.id==='btnNovaOS2'){
+    const os = get('nevar_os').slice();
+    const next = 'OS-' + String(Math.max(...os.map(o=>+o.id.split('-')[1]))+1 || 101);
+    os.unshift({id:next, cliente:'Novo Cliente', servico:'Split', status:'aberta', valor:1500});
+    set('nevar_os', os); refreshAll(); alert('O.S. criada: '+next);
+  }
+  if(e.target.id==='btnNovoOrc'){
+    const orc = get('nevar_orc').slice();
+    const next = 'ORC-' + (7000 + orc.length + 1);
+    orc.unshift({id:next, cliente:'Cliente XYZ', item:'Preventiva trimestral', status:'pendente', valor:2300});
+    set('nevar_orc', orc); refreshAll(); alert('Orçamento criado: '+next);
+  }
+  if(e.target.id==='btnAddUser'){
+    const users = get('nevar_users').slice();
+    users.push({nome:'Novo Usuário', email:'novo@nevar.com', perfil:'Operador'});
+    set('nevar_users', users); refreshAll(); alert('Usuário adicionado.');
+  }
+});
 
 /* ===== boot ===== */
 function renderAllFirst(){ selectTab('dashboard'); refreshAll(); }
-if(isLogged()){
-  hide('authSection'); show('app'); renderAllFirst();
-  ensureModalClosed(); // garante fechado
-}
+if(isLogged()){ hide('authSection'); show('app'); renderAllFirst(); }
 </script>
 </body>
 </html>
