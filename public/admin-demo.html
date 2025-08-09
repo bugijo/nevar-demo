@@ -159,7 +159,7 @@ body.lock{ overflow:hidden }
             <div class="soft p-4 kpi"><span class="text-mute text-xs">Faturamento</span><span id="kFatMes" class="v">R$ 0</span></div>
           </div>
 
-          <div class="grid md:grid-cols-3 gap-4 mt-4">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
             <div class="soft p-4 md:col-span-2">
               <div class="flex items-center justify-between">
                 <h3 class="font-bold">O.S. — Kanban</h3>
@@ -347,7 +347,7 @@ $('#loginForm').addEventListener('submit', e=>{
   e.preventDefault();
   const admin = JSON.parse(localStorage.getItem('nevar_admin')||'{}');
   if($('#loginEmail').value.trim()===admin.email && $('#loginPass').value.trim()===admin.senha){
-    setSession(true); hide('authSection'); show('app'); selectTab('dashboard'); refreshAll();
+    setSession(true); hide('authSection'); show('app'); selectTab('dashboard'); refreshAll(); ensureModalClosed();
   } else alert('Credenciais inválidas');
 });
 $('#btnLogout').addEventListener('click', ()=>{ localStorage.removeItem('nevar_session'); show('authSection'); hide('app'); });
@@ -363,11 +363,11 @@ function selectTab(name){
 }
 $('#menu')?.addEventListener('click', e=>{
   const b = e.target.closest('.tab'); if(!b) return;
-  selectTab(b.dataset.tab); refreshAll();
+  selectTab(b.dataset.tab); refreshAll(); ensureModalClosed();
 });
 document.querySelector('nav.sticky-bottom').addEventListener('click', e=>{
   const b = e.target.closest('.tabm'); if(!b) return;
-  selectTab(b.dataset.tab); refreshAll();
+  selectTab(b.dataset.tab); refreshAll(); ensureModalClosed();
 });
 
 /* ===== render ===== */
@@ -435,14 +435,6 @@ function renderTec(){ $('#tecList').innerHTML = listify(get('nevar_tec'), [
 
 function refreshAll(){ renderKPIs(); renderKanban(); renderOS(); renderOrc(); renderStock(); renderFin(); renderLeads(); renderUsers(); renderTec(); drawChart(); }
 
-/* ===== ações rápidas ===== */
-const addOS = () => { const os=get('nevar_os'); const n=os.length+110; os.unshift({id:`OS-${n}`, cliente:'Novo Cliente', servico:'Split', status:'aberta', valor:1500, obs:'', fotos:[], ass:''}); set('nevar_os',os); refreshAll(); selectTab('os'); };
-$('#btnNovaOS').addEventListener('click', addOS);
-$('#btnNovaOS2').addEventListener('click', addOS);
-$('#fab').addEventListener('click', addOS);
-$('#btnNovoOrc').addEventListener('click', ()=>{ const o=get('nevar_orc'); o.unshift({id:`ORC-${7000+o.length}`, cliente:'Cliente XYZ', item:'Preventiva trimestral', status:'pendente', valor:2300, notas:''}); set('nevar_orc',o); refreshAll(); });
-$('#btnAddUser').addEventListener('click', ()=>{ const u=get('nevar_users'); u.push({nome:'Novo Usuário', email:`user${u.length+1}@nevar.com`, perfil:'Recepção'}); set('nevar_users',u); refreshAll(); });
-
 /* ===== gráfico simples responsivo ===== */
 function drawChart(){
   const c = document.getElementById('chart'), ctx = c.getContext('2d');
@@ -454,12 +446,24 @@ function drawChart(){
   data.forEach((v,i)=>{ const x=pad + i*(bw+gap); const bh=(h-pad*2)*(v/max); ctx.fillStyle= i===data.length-1?'#00c2ff':'rgba(255,255,255,.5)'; ctx.fillRect(x, h-pad-bh, bw, bh); });
 }
 
+/* ===== util modal ===== */
+function ensureModalClosed(){
+  hide('osModalWrap');
+  document.body.classList.remove('lock');
+  $('#bottomBar')?.classList.remove('ui-hide');
+  $('#fab')?.classList.remove('ui-hide');
+}
+
 /* ===== MODAL O.S. ===== */
 let currentOSId = null, sigDrawing=false, sigLast=null;
 
 function openOSModal(id){
-  currentOSId = id;
+  // abre somente se id válido
+  if(!id){ ensureModalClosed(); return; }
   const os = get('nevar_os').find(x=>x.id===id);
+  if(!os){ ensureModalClosed(); return; }
+
+  currentOSId = id;
   $('#osModalTitle').textContent = `O.S. ${os.id}`;
   $('#osModalBody').innerHTML = `
     <div class="grid gap-3">
@@ -516,12 +520,17 @@ function openOSModal(id){
     </div>
   `;
 
-  // ESCONDE barra+FAB e bloqueia scroll
+  // esconder UI e travar scroll
   document.body.classList.add('lock');
   $('#bottomBar')?.classList.add('ui-hide');
   $('#fab')?.classList.add('ui-hide');
 
   show('osModalWrap');
+
+  // fechar tocando fora do conteúdo
+  $('#osModalWrap').onclick = (e)=>{
+    if(e.target.id === 'osModalWrap'){ closeOSModal(); }
+  };
 
   // upload de fotos
   $('#osFotoUp').addEventListener('change', async (e)=>{
@@ -564,12 +573,7 @@ function openOSModal(id){
   $('#btnExportOS').onclick = ()=> exportOSPdf(os);
 }
 
-function closeOSModal(){
-  hide('osModalWrap');
-  document.body.classList.remove('lock');
-  $('#bottomBar')?.classList.remove('ui-hide');
-  $('#fab')?.classList.remove('ui-hide');
-}
+function closeOSModal(){ ensureModalClosed(); }
 
 function saveCurrentOS(os){ const arr = get('nevar_os').map(x=> x.id===os.id ? os : x); set('nevar_os', arr); }
 
@@ -609,7 +613,10 @@ function exportOSPdf(os){
 
 /* ===== boot ===== */
 function renderAllFirst(){ selectTab('dashboard'); refreshAll(); }
-if(isLogged()){ hide('authSection'); show('app'); renderAllFirst(); }
+if(isLogged()){
+  hide('authSection'); show('app'); renderAllFirst();
+  ensureModalClosed(); // garante fechado
+}
 </script>
 </body>
 </html>
