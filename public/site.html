@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Nevar — Refrigeração Comercial e Residencial</title>
+  <meta name="description" content="Instalação, manutenção e refrigeração comercial. Orçamento rápido e atendimento com garantia." />
+  <!-- Tailwind via CDN só para este HTML isolado -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* pequenos ajustes visuais */
+    .card { box-shadow: 0 1px 0 rgba(0,0,0,.04); }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+  <!-- Header -->
+  <header class="bg-white border-b">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-2xl bg-slate-900 text-white grid place-items-center font-bold">NV</div>
+        <div class="font-semibold">Nevar</div>
+      </div>
+      <nav class="hidden sm:flex gap-2">
+        <a href="#servicos" class="px-3 py-2 rounded-xl hover:bg-slate-100">Serviços</a>
+        <a href="#sobre" class="px-3 py-2 rounded-xl hover:bg-slate-100">Sobre</a>
+        <a href="#contato" class="px-3 py-2 rounded-xl hover:bg-slate-100">Contato</a>
+      </nav>
+      <div class="flex items-center gap-2">
+        <!-- Link para o sistema/admin -->
+        <a href="/" class="px-3 py-2 rounded-xl border" title="Acessar o sistema">Sistema</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="bg-gradient-to-b from-white to-slate-50 border-b">
+    <div class="max-w-6xl mx-auto px-4 py-12 text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs">NEVAR</div>
+      <h1 class="text-3xl md:text-4xl font-bold mt-3">Clima perfeito para o seu negócio</h1>
+      <p class="text-slate-600 mt-3 max-w-2xl mx-auto">
+        Instalação, manutenção e refrigeração comercial com atendimento rápido, peças originais e garantia.
+      </p>
+      <div class="mt-6 flex justify-center gap-2">
+        <a href="#contato" class="px-5 py-3 rounded-xl bg-slate-900 text-white">Solicitar Orçamento</a>
+        <a href="#servicos" class="px-5 py-3 rounded-xl border bg-white">Ver Serviços</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Serviços -->
+  <section id="servicos" class="max-w-6xl mx-auto px-4 py-10">
+    <h2 class="text-2xl font-semibold mb-4">Serviços</h2>
+    <div class="grid md:grid-cols-3 gap-4">
+      <div class="bg-white rounded-2xl p-5 border card">
+        <div class="font-semibold">Instalação de Split / VRF</div>
+        <div class="text-sm text-slate-600 mt-1">Projetos residenciais e comerciais, dimensionamento e startup.</div>
+      </div>
+      <div class="bg-white rounded-2xl p-5 border card">
+        <div class="font-semibold">Câmaras Frias</div>
+        <div class="text-sm text-slate-600 mt-1">Projeto, montagem, retrofit, isolamento e portas.</div>
+      </div>
+      <div class="bg-white rounded-2xl p-5 border card">
+        <div class="font-semibold">Manutenção Preventiva</div>
+        <div class="text-sm text-slate-600 mt-1">Planos mensais com checklists e relatórios para reduzir paradas.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sobre -->
+  <section id="sobre" class="max-w-6xl mx-auto px-4 py-10">
+    <h2 class="text-2xl font-semibold mb-4">Sobre a Nevar</h2>
+    <div class="bg-white rounded-2xl p-6 border card">
+      <p class="text-slate-700">
+        Somos especialistas em refrigeração e climatização há mais de 10 anos,
+        atendendo empresas e residências com foco em qualidade, rapidez e segurança.
+      </p>
+      <ul class="mt-4 grid md:grid-cols-3 gap-3">
+        <li class="p-4 rounded-xl border text-center">Equipe certificada</li>
+        <li class="p-4 rounded-xl border text-center">Peças originais</li>
+        <li class="p-4 rounded-xl border text-center">Garantia em serviço</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Contato / Lead -->
+  <section id="contato" class="max-w-6xl mx-auto px-4 py-10">
+    <h2 class="text-2xl font-semibold mb-4">Solicitar Orçamento</h2>
+    <div class="bg-white rounded-2xl p-6 border card max-w-2xl">
+      <div id="ok" class="hidden mb-3 text-green-700 text-sm">
+        Recebemos sua solicitação! Em breve entraremos em contato.
+      </div>
+      <form id="leadForm" class="space-y-3">
+        <input id="nome" class="w-full border rounded-xl px-3 py-2" placeholder="Seu nome" required />
+        <input id="contato" class="w-full border rounded-xl px-3 py-2" placeholder="Telefone ou e-mail" required />
+        <textarea id="mensagem" class="w-full border rounded-xl px-3 py-2" rows="4" placeholder="Descreva o que precisa" required></textarea>
+        <button class="px-5 py-3 rounded-xl bg-slate-900 text-white" type="submit">Enviar</button>
+        <p class="text-xs text-slate-500">
+          Ao enviar, você concorda em ser contatado pela Nevar para este orçamento.
+        </p>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-10 text-center text-xs text-slate-500">
+    © <span id="year"></span> Nevar — Refrigeração comercial e residencial · WhatsApp (11) 99999-9999
+  </footer>
+
+  <script>
+    // Ano no rodapé
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Captura de lead (demo): salva no localStorage
+    const form = document.getElementById('leadForm');
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      const nome = document.getElementById('nome').value.trim();
+      const contato = document.getElementById('contato').value.trim();
+      const mensagem = document.getElementById('mensagem').value.trim();
+      const leadsRaw = localStorage.getItem('nevar_leads') || '[]';
+      const leads = JSON.parse(leadsRaw);
+      leads.push({ nome, contato, mensagem, data: new Date().toISOString() });
+      localStorage.setItem('nevar_leads', JSON.stringify(leads));
+      // feedback
+      document.getElementById('ok').classList.remove('hidden');
+      form.reset();
+      setTimeout(()=>document.getElementById('ok').classList.add('hidden'), 4000);
+    });
+  </script>
+</body>
+</html>
