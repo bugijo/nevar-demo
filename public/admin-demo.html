@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Nevar • Painel Demo</title>
+  <meta name="description" content="Painel administrativo demo da Nevar: O.S., Orçamentos, Estoque, Financeiro, Relatórios e mais." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter','ui-sans-serif','system-ui'] },
+          colors: { brand:{500:'#00c2ff',600:'#00a9e0'}, base:'#0b1116' },
+          boxShadow:{ glow:'0 12px 50px rgba(0,194,255,.25)' }
+        }
+      }
+    }
+  </script>
+  <style>
+    html,body{ background:#0f141a; color:#e6eef6 }
+    .card{ background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); border-radius:16px }
+    .btn{ display:inline-flex; align-items:center; justify-content:center; padding:.8rem 1rem; border-radius:12px; font-weight:600; transition:.2s }
+    .btn-primary{ background:#00c2ff; color:#031018 }
+    .btn-primary:hover{ background:#00a9e0; box-shadow:0 12px 38px rgba(0,194,255,.28) }
+    .btn-ghost{ border:1px solid rgba(255,255,255,.15) }
+    .tag{ padding:.25rem .6rem; border:1px solid rgba(255,255,255,.15); border-radius:999px; font-size:.7rem }
+    .grid-col{ min-height: 240px }
+    .hiddenEl{ display:none }
+  </style>
+</head>
+<body class="font-sans">
+
+<!-- Topbar -->
+<header class="sticky top-0 z-40 border-b border-white/10 bg-[#0f141a]/70 backdrop-blur">
+  <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-brand-500 grid place-items-center font-extrabold text-[#02151b]">NV</div>
+      <div class="font-extrabold tracking-wide">Nevar</div>
+      <span class="hidden md:inline text-white/50 text-sm">• Painel Demo</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <a class="hidden sm:inline-flex btn btn-ghost" href="/site.html">Ver Site</a>
+      <a class="hidden sm:inline-flex btn btn-ghost" href="https://wa.me/5511999999999?text=Olá%20Nevar!%20Quero%20entender%20o%20sistema.">WhatsApp</a>
+      <button id="btnLogout" class="btn btn-ghost">Sair</button>
+    </div>
+  </div>
+</header>
+
+<!-- Primeiro Acesso / Login -->
+<section id="authSection" class="max-w-3xl mx-auto p-4 mt-8">
+  <div id="firstAccess" class="card p-6">
+    <h1 class="text-2xl md:text-3xl font-extrabold">Primeiro Acesso — Nevar</h1>
+    <p class="text-white/60 mt-1">Crie o usuário Administrador para começar</p>
+    <form id="firstForm" class="mt-4 grid gap-3">
+      <input class="rounded-xl px-4 py-3 bg-white/5 border border-white/10" placeholder="Nome" required>
+      <input class="rounded-xl px-4 py-3 bg-white/5 border border-white/10" placeholder="E-mail" type="email" required>
+      <input class="rounded-xl px-4 py-3 bg-white/5 border border-white/10" placeholder="Senha" type="password" required>
+      <button class="btn btn-primary">Criar Administrador</button>
+    </form>
+  </div>
+
+  <div id="loginBox" class="card p-6 mt-4">
+    <h2 class="text-xl font-bold">Entrar</h2>
+    <form id="loginForm" class="mt-3 grid gap-3">
+      <input id="loginEmail" class="rounded-xl px-4 py-3 bg-white/5 border border-white/10" placeholder="E-mail" type="email" required>
+      <input id="loginPass"  class="rounded-xl px-4 py-3 bg-white/5 border border-white/10" placeholder="Senha" type="password" required>
+      <button class="btn btn-primary">Acessar</button>
+    </form>
+  </div>
+</section>
+
+<!-- App -->
+<main id="app" class="max-w-7xl mx-auto p-4 mt-6 hiddenEl">
+  <div class="grid lg:grid-cols-[220px_1fr] gap-4">
+    <!-- Sidebar -->
+    <aside class="card p-3 h-fit">
+      <nav id="menu" class="grid gap-1 text-sm">
+        <button data-tab="dashboard"  class="tab btn-ghost px-3 py-2 text-left rounded-lg">Dashboard</button>
+        <button data-tab="os"         class="tab btn-ghost px-3 py-2 text-left rounded-lg">O.S.</button>
+        <button data-tab="orcamentos" class="tab btn-ghost px-3 py-2 text-left rounded-lg">Orçamentos</button>
+        <button data-tab="estoque"    class="tab btn-ghost px-3 py-2 text-left rounded-lg">Estoque</button>
+        <button data-tab="financeiro" class="tab btn-ghost px-3 py-2 text-left rounded-lg">Financeiro</button>
+        <button data-tab="relatorios" class="tab btn-ghost px-3 py-2 text-left rounded-lg">Relatórios</button>
+        <button data-tab="cms"        class="tab btn-ghost px-3 py-2 text-left rounded-lg">CMS / Leads</button>
+        <button data-tab="usuarios"   class="tab btn-ghost px-3 py-2 text-left rounded-lg">Usuários</button>
+        <button data-tab="tecnicos"   class="tab btn-ghost px-3 py-2 text-left rounded-lg">Técnicos</button>
+      </nav>
+    </aside>
+
+    <!-- Content -->
+    <section class="grid gap-4">
+      <!-- DASHBOARD -->
+      <div id="tab-dashboard" class="card p-5">
+        <h2 class="text-xl font-bold">Resumo</h2>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-3">
+          <div class="card p-4"><div class="text-sm text-white/60">O.S. Abertas</div><div id="kOsAbertas" class="text-2xl font-extrabold">0</div></div>
+          <div class="card p-4"><div class="text-sm text-white/60">O.S. Em Andamento</div><div id="kOsAnd" class="text-2xl font-extrabold">0</div></div>
+          <div class="card p-4"><div class="text-sm text-white/60">Orçamentos Pendentes</div><div id="kOrcPend" class="text-2xl font-extrabold">0</div></div>
+          <div class="card p-4"><div class="text-sm text-white/60">Faturamento (Mês)</div><div id="kFatMes" class="text-2xl font-extrabold">R$ 0</div></div>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-4 mt-4">
+          <div class="card p-4 md:col-span-2">
+            <div class="flex items-center justify-between">
+              <h3 class="font-bold">O.S. — Kanban</h3>
+              <button id="btnNovaOS" class="btn btn-primary">Nova O.S.</button>
+            </div>
+            <div class="grid md:grid-cols-3 gap-3 mt-3">
+              <div class="card p-3 grid-col">
+                <div class="flex items-center justify-between"><b>Abertas</b><span class="tag" id="cA">0</span></div>
+                <div id="kanbanA" class="mt-2 space-y-2"></div>
+              </div>
+              <div class="card p-3 grid-col">
+                <div class="flex items-center justify-between"><b>Em andamento</b><span class="tag" id="cE">0</span></div>
+                <div id="kanbanE" class="mt-2 space-y-2"></div>
+              </div>
+              <div class="card p-3 grid-col">
+                <div class="flex items-center justify-between"><b>Concluídas</b><span class="tag" id="cC">0</span></div>
+                <div id="kanbanC" class="mt-2 space-y-2"></div>
+              </div>
+            </div>
+          </div>
+          <div class="card p-4">
+            <h3 class="font-bold">Fluxo de Caixa (demo)</h3>
+            <canvas id="chart" width="400" height="230"></canvas>
+            <div class="text-xs text-white/50 mt-2">Gráfico ilustrativo.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- O.S. -->
+      <div id="tab-os" class="card p-5 hiddenEl">
+        <div class="flex items-center justify-between">
+          <h2 class="text-xl font-bold">Ordens de Serviço</h2>
+          <button id="btnNovaOS2" class="btn btn-primary">Nova O.S.</button>
+        </div>
+        <div id="tableOS" class="mt-3 overflow-x-auto"></div>
+      </div>
+
+      <!-- Orçamentos -->
+      <div id="tab-orcamentos" class="card p-5 hiddenEl">
+        <div class="flex items-center justify-between">
+          <h2 class="text-xl font-bold">Orçamentos</h2>
+          <button id="btnNovoOrc" class="btn btn-primary">Novo Orçamento</button>
+        </div>
+        <div id="tableOrc" class="mt-3 overflow-x-auto"></div>
+      </div>
+
+      <!-- Estoque -->
+      <div id="tab-estoque" class="card p-5 hiddenEl">
+        <h2 class="text-xl font-bold">Estoque</h2>
+        <div id="tableEstoque" class="mt-3 overflow-x-auto"></div>
+      </div>
+
+      <!-- Financeiro -->
+      <div id="tab-financeiro" class="card p-5 hiddenEl">
+        <h2 class="text-xl font-bold">Financeiro</h2>
+        <div class="grid md:grid-cols-3 gap-3 mt-3">
+          <div class="card p-4"><div class="text-sm text-white/60">A Receber</div><div id="fatRec" class="text-2xl font-extrabold">R$ 0</div></div>
+          <div class="card p-4"><div class="text-sm text-white/60">A Pagar</div><div id="fatPag" class="text-2xl font-extrabold">R$ 0</div></div>
+          <div class="card p-4"><div class="text-sm text-white/60">Saldo</div><div id="fatSaldo" class="text-2xl font-extrabold">R$ 0</div></div>
+        </div>
+        <div id="tableFin" class="mt-3 overflow-x-auto"></div>
+      </div>
+
+      <!-- Relatórios -->
+      <div id="tab-relatorios" class="card p-5 hiddenEl">
+        <h2 class="text-xl font-bold">Relatórios</h2>
+        <ul class="mt-3 grid gap-2">
+          <li class="card p-4">📄 O.S. por status (mensal)</li>
+          <li class="card p-4">📄 Faturamento por serviço</li>
+          <li class="card p-4">📄 Consumo de peças por técnico</li>
+        </ul>
+      </div>
+
+      <!-- CMS / Leads -->
+      <div id="tab-cms" class="card p-5 hiddenEl">
+        <div class="flex items-center justify-between">
+          <h2 class="text-xl font-bold">Leads (site)</h2>
+          <a class="btn btn-ghost" href="/site.html" target="_blank">Abrir site</a>
+        </div>
+        <p class="text-white/60 text-sm">Leads capturados em <code>localStorage.nevar_leads</code>.</p>
+        <div id="tableLeads" class="mt-3 overflow-x-auto"></div>
+      </div>
+
+      <!-- Usuários -->
+      <div id="tab-usuarios" class="card p-5 hiddenEl">
+        <div class="flex items-center justify-between">
+          <h2 class="text-xl font-bold">Usuários</h2>
+          <button id="btnAddUser" class="btn btn-primary">Novo Usuário</button>
+        </div>
+        <div id="tableUsers" class="mt-3 overflow-x-auto"></div>
+      </div>
+
+      <!-- Técnicos -->
+      <div id="tab-tecnicos" class="card p-5 hiddenEl">
+        <h2 class="text-xl font-bold">Tarefas do Técnico</h2>
+        <div id="tableTec" class="mt-3 overflow-x-auto"></div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script>
+/* ========== helpers UI ========== */
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const money = v => 'R$ ' + (v).toLocaleString('pt-BR', {minimumFractionDigits:2});
+const setHTML = (el, html) => (el.innerHTML = html);
+const show = id => $('#'+id).classList.remove('hiddenEl');
+const hide = id => $('#'+id).classList.add('hiddenEl');
+
+/* ========== seed demo ==========
+   Se já existir no localStorage, preserva. */
+const seed = () => {
+  if(!localStorage.getItem('demo_seed')){
+    const os = [
+      {id:'OS-101', cliente:'Restaurante Aurora', servico:'Câmara fria', status:'aberta', valor: 3200},
+      {id:'OS-102', cliente:'Clínica Vita', servico:'VRF', status:'andamento', valor: 12800},
+      {id:'OS-103', cliente:'Supermercado Max', servico:'Split', status:'andamento', valor: 1800},
+      {id:'OS-104', cliente:'Hotel Blue', servico:'Preventiva', status:'concluida', valor: 950}
+    ];
+    const orc = [
+      {id:'ORC-7001', cliente:'Rest. Flor do Mar', item:'Split 24k + Instalação', status:'pendente', valor: 4900},
+      {id:'ORC-7002', cliente:'TechLab', item:'VRF 20TR', status:'enviado', valor: 86000}
+    ];
+    const stk = [
+      {sku:'PE-001', nome:'Gás R410A', qtd: 12, minimo:5},
+      {sku:'PE-002', nome:'Filtro Secador', qtd: 30, minimo:10},
+      {sku:'PE-003', nome:'Válvula de Expansão', qtd: 8, minimo:5}
+    ];
+    const fin = [
+      {id:'F-01', tipo:'receber', desc:'OS-102 • VRF', valor: 12800},
+      {id:'F-02', tipo:'receber', desc:'OS-103 • Split', valor: 1800},
+      {id:'F-03', tipo:'pagar',   desc:'Compra de peças', valor: 3500}
+    ];
+    const users = [
+      {nome:'Admin', email:'admin@nevar.com', perfil:'Administrador'}
+    ];
+    const tec = [
+      {tec:'Carlos', os:'OS-103', tarefa:'Instalar condensadora', status:'pendente'},
+      {tec:'Fernanda', os:'OS-101', tarefa:'Ajuste termostato', status:'em execução'}
+    ];
+    localStorage.setItem('nevar_os', JSON.stringify(os));
+    localStorage.setItem('nevar_orc', JSON.stringify(orc));
+    localStorage.setItem('nevar_stock', JSON.stringify(stk));
+    localStorage.setItem('nevar_fin', JSON.stringify(fin));
+    localStorage.setItem('nevar_users', JSON.stringify(users));
+    localStorage.setItem('nevar_tec', JSON.stringify(tec));
+    localStorage.setItem('demo_seed','1');
+  }
+};
+seed();
+
+/* ========== auth ========== */
+const hasAdmin = () => !!localStorage.getItem('nevar_admin');
+const setSession = v => localStorage.setItem('nevar_session', v?'1':'');
+const isLogged = () => !!localStorage.getItem('nevar_session');
+
+const renderAuth = () => {
+  if(!hasAdmin()){
+    show('firstAccess');
+  } else {
+    hide('firstAccess');
+  }
+};
+renderAuth();
+
+$('#firstForm').addEventListener('submit', e=>{
+  e.preventDefault();
+  const [nome, email, senha] = [...e.target.querySelectorAll('input')].map(i=>i.value.trim());
+  localStorage.setItem('nevar_admin', JSON.stringify({nome,email,senha}));
+  alert('Administrador criado! Faça login abaixo.');
+  renderAuth();
+});
+
+$('#loginForm').addEventListener('submit', e=>{
+  e.preventDefault();
+  const admin = JSON.parse(localStorage.getItem('nevar_admin') || '{}');
+  const email = $('#loginEmail').value.trim();
+  const senha = $('#loginPass').value.trim();
+  if(admin.email === email && admin.senha === senha){
+    setSession(true);
+    hide('authSection'); show('app');
+    selectTab('dashboard'); refreshAll();
+  } else {
+    alert('Credenciais inválidas');
+  }
+});
+
+$('#btnLogout').addEventListener('click', ()=>{
+  localStorage.removeItem('nevar_session');
+  show('authSection'); hide('app');
+});
+
+/* ========== navegação tabs ========== */
+const selectTab = (name) => {
+  $$('.tab').forEach(b=>b.classList.remove('bg-white','bg-white/10'));
+  $$('.tab').find(b=>b.dataset.tab===name)?.classList.add('bg-white/10');
+  ['dashboard','os','orcamentos','estoque','financeiro','relatorios','cms','usuarios','tecnicos']
+    .forEach(id => (id===name?show('tab-'+id):hide('tab-'+id)));
+};
+$('#menu').addEventListener('click', e=>{
+  const btn = e.target.closest('.tab'); if(!btn) return;
+  selectTab(btn.dataset.tab);
+  if(btn.dataset.tab) refreshAll();
+});
+
+/* ========== renderizadores ========== */
+const get = k => JSON.parse(localStorage.getItem(k) || '[]');
+
+function renderKanban(){
+  const os = get('nevar_os');
+  const by = s => os.filter(i => (s==='aberta'?i.status==='aberta': s==='and'?i.status==='andamento':i.status==='concluida'));
+  const item = o => `<div class="card p-3"><div class="font-semibold">${o.id}</div><div class="text-white/60 text-sm">${o.cliente}</div><div class="tag mt-2">${o.servico}</div></div>`;
+  setHTML($('#kanbanA'), by('aberta').map(item).join(''));
+  setHTML($('#kanbanE'), by('and').map(item).join(''));
+  setHTML($('#kanbanC'), by('concluida').map(item).join(''));
+  $('#cA').textContent = by('aberta').length;
+  $('#cE').textContent = by('and').length;
+  $('#cC').textContent = by('concluida').length;
+}
+
+function renderKPIs(){
+  const os = get('nevar_os');
+  const orc = get('nevar_orc');
+  $('#kOsAbertas').textContent = os.filter(i=>i.status==='aberta').length;
+  $('#kOsAnd').textContent    = os.filter(i=>i.status==='andamento').length;
+  $('#kOrcPend').textContent  = orc.filter(i=>i.status==='pendente').length;
+  const fat = get('nevar_fin').reduce((a,i)=> a + (i.tipo==='receber'? i.valor : -i.valor), 0);
+  $('#kFatMes').textContent = money(fat);
+}
+
+function table(arr, cols){
+  const head = `<tr>${cols.map(c=>`<th class="px-3 py-2 text-left text-white/60">${c.label}</th>`).join('')}</tr>`;
+  const body = arr.map(r => `<tr class="border-t border-white/10">
+    ${cols.map(c=>`<td class="px-3 py-2 text-sm">${(r[c.key]??'')}</td>`).join('')}
+  </tr>`).join('');
+  return `<table class="min-w-[600px] w-full">${head}${body}</table>`;
+}
+
+function renderOS(){
+  setHTML($('#tableOS'), table(get('nevar_os'), [
+    {key:'id',label:'Código'}, {key:'cliente',label:'Cliente'}, {key:'servico',label:'Serviço'},
+    {key:'status',label:'Status'}, {key:'valor',label:'Valor'}
+  ]));
+}
+function renderOrc(){
+  setHTML($('#tableOrc'), table(get('nevar_orc'), [
+    {key:'id',label:'Código'}, {key:'cliente',label:'Cliente'}, {key:'item',label:'Item'},
+    {key:'status',label:'Status'}, {key:'valor',label:'Valor'}
+  ]));
+}
+function renderStock(){
+  setHTML($('#tableEstoque'), table(get('nevar_stock'), [
+    {key:'sku',label:'SKU'}, {key:'nome',label:'Nome'}, {key:'qtd',label:'Qtd.'}, {key:'minimo',label:'Mín.'}
+  ]));
+}
+function renderFin(){
+  const fin = get('nevar_fin');
+  const rec = fin.filter(f=>f.tipo==='receber').reduce((a,i)=>a+i.valor,0);
+  const pag = fin.filter(f=>f.tipo==='pagar').reduce((a,i)=>a+i.valor,0);
+  $('#fatRec').textContent = money(rec);
+  $('#fatPag').textContent = money(pag);
+  $('#fatSaldo').textContent = money(rec - pag);
+  setHTML($('#tableFin'), table(fin, [
+    {key:'id',label:'ID'}, {key:'tipo',label:'Tipo'}, {key:'desc',label:'Descrição'}, {key:'valor',label:'Valor'}
+  ]));
+}
+function renderLeads(){
+  const leads = get('nevar_leads').reverse();
+  if(!leads.length){ setHTML($('#tableLeads'), '<div class="text-white/60">Sem leads ainda. Envie pelo site.</div>'); return; }
+  setHTML($('#tableLeads'), table(leads.map(l=>({
+    data: new Date(l.data).toLocaleString('pt-BR'),
+    servico: l.servico || '-', nome: l.nome, contato: l.contato, mensagem: l.mensagem
+  })), [
+    {key:'data',label:'Data'}, {key:'servico',label:'Serviço'}, {key:'nome',label:'Nome'},
+    {key:'contato',label:'Contato'}, {key:'mensagem',label:'Mensagem'}
+  ]));
+}
+function renderUsers(){
+  setHTML($('#tableUsers'), table(get('nevar_users'), [
+    {key:'nome',label:'Nome'}, {key:'email',label:'E-mail'}, {key:'perfil',label:'Perfil'}
+  ]));
+}
+function renderTec(){
+  setHTML($('#tableTec'), table(get('nevar_tec'), [
+    {key:'tec',label:'Técnico'}, {key:'os',label:'O.S.'}, {key:'tarefa',label:'Tarefa'}, {key:'status',label:'Status'}
+  ]));
+}
+
+function refreshAll(){
+  renderKPIs(); renderKanban(); renderOS(); renderOrc(); renderStock(); renderFin(); renderLeads(); renderUsers(); renderTec();
+  drawChart();
+}
+
+/* ========== ações rápidas (simulação) ========== */
+const addOS = () => {
+  const os = get('nevar_os');
+  const n = os.length + 105;
+  os.unshift({id:`OS-${n}`, cliente:'Novo Cliente', servico:'Split', status:'aberta', valor: 1500});
+  localStorage.setItem('nevar_os', JSON.stringify(os));
+  refreshAll();
+};
+$('#btnNovaOS').addEventListener('click', addOS);
+$('#btnNovaOS2').addEventListener('click', addOS);
+$('#btnNovoOrc').addEventListener('click', ()=>{
+  const orc = get('nevar_orc');
+  orc.unshift({id:`ORC-${7000 + orc.length}`, cliente:'Cliente XYZ', item:'Preventiva trimestral', status:'pendente', valor: 2300});
+  localStorage.setItem('nevar_orc', JSON.stringify(orc));
+  refreshAll();
+});
+$('#btnAddUser').addEventListener('click', ()=>{
+  const users = get('nevar_users');
+  users.push({nome:'Novo Usuário', email:`user${users.length+1}@nevar.com`, perfil:'Recepção'});
+  localStorage.setItem('nevar_users', JSON.stringify(users));
+  refreshAll();
+});
+
+/* ========== gráfico simples (sem libs) ========== */
+function drawChart(){
+  const ctx = $('#chart').getContext('2d');
+  ctx.clearRect(0,0,400,230);
+  const data = [8,12,10,16,14,20];
+  const max = Math.max(...data);
+  const w = 400, h = 230, pad=24;
+  // eixo
+  ctx.strokeStyle = 'rgba(255,255,255,.25)';
+  ctx.beginPath(); ctx.moveTo(pad,h-pad); ctx.lineTo(w-pad,h-pad); ctx.stroke();
+  // barras
+  const bw = (w - pad*2) / data.length - 8;
+  data.forEach((v,i)=>{
+    const x = pad + i*(bw+8);
+    const bh = (h - pad*2) * (v/max);
+    ctx.fillStyle = i===data.length-1 ? '#00c2ff' : 'rgba(255,255,255,.5)';
+    ctx.fillRect(x, h-pad-bh, bw, bh);
+  });
+}
+
+/* ========== boot ==========
+   se já estava logado, vai direto ao app */
+if(isLogged()){ hide('authSection'); show('app'); selectTab('dashboard'); refreshAll(); }
+</script>
+</body>
+</html>
