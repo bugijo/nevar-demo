@@ -35,8 +35,10 @@ html,body{ background:#0b0f14; color:var(--ink,rgba(255,255,255,.92)); }
 .tab-active{ color:#00c2ff }
 
 /* Barra inferior fixa */
-.sticky-bottom{ position:fixed; left:0; right:0; bottom:env(safe-area-inset-bottom); z-index:60;
-  border-top:1px solid rgba(255,255,255,.08); background:rgba(11,15,20,.92); backdrop-filter:blur(10px) }
+.sticky-bottom{
+  position:fixed; left:0; right:0; bottom:env(safe-area-inset-bottom); z-index:60;
+  border-top:1px solid rgba(255,255,255,.08); background:rgba(11,15,20,.92); backdrop-filter:blur(10px)
+}
 .pad-tabbar{ padding-bottom:calc(84px + env(safe-area-inset-bottom)); }
 .tabm{ opacity:.85; transition:.15s } .tabm.tab-active{ color:#00c2ff; opacity:1 }
 
@@ -44,24 +46,34 @@ html,body{ background:#0b0f14; color:var(--ink,rgba(255,255,255,.92)); }
 .kpi{ display:flex; flex-direction:column; gap:.25rem } .kpi .v{ font-size:1.6rem; font-weight:800 }
 .list-card{ border-radius:14px; border:1px solid rgba(255,255,255,.08); background:#0f141a; padding:.9rem }
 
-/* modal */
-.modal-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,.6); display:flex; align-items:flex-end; }
+/* modal: AGORA EM CIMA DE TUDO */
+.modal-backdrop{
+  position:fixed; inset:0; background:rgba(0,0,0,.6); display:flex; align-items:flex-end;
+  z-index:100; /* acima da barra (60) e do FAB (70) */
+}
 @media (min-width:768px){ .modal-backdrop{ align-items:center; justify-content:center } }
 .modal{ width:100%; max-width:760px; background:#11161c; border:1px solid rgba(255,255,255,.08); border-radius:16px 16px 0 0; }
 @media (min-width:768px){ .modal{ border-radius:16px } }
 .modal-h{ padding:1rem 1.25rem; border-bottom:1px solid rgba(255,255,255,.08) }
-.modal-b{ padding:1rem 1.25rem }
+.modal-b{ padding:1rem 1.25rem; max-height:70vh; overflow:auto } /* rolagem dentro do modal */
 .modal-f{ padding:1rem 1.25rem; border-top:1px solid rgba(255,255,255,.08) }
 
 /* assinatura */
 .sig-pad{ background:#0e1318; border:1px dashed rgba(255,255,255,.12); border-radius:12px }
 
 /* FAB */
-.fab{ position:fixed; right:16px; bottom:calc(100px + env(safe-area-inset-bottom));
+.fab{
+  position:fixed; right:16px; bottom:calc(100px + env(safe-area-inset-bottom));
   background:#00c2ff; color:#001219; width:56px; height:56px; border-radius:16px;
-  display:grid; place-items:center; font-size:28px; box-shadow:0 16px 40px rgba(0,194,255,.35); z-index:50 }
+  display:grid; place-items:center; font-size:28px; box-shadow:0 16px 40px rgba(0,194,255,.35); z-index:70
+}
 .fab:active{ transform: translateY(1px) }
+
+/* grid desktop */
 @media (min-width:1024px){ .container-grid{ grid-template-columns: 240px 1fr } }
+
+/* evita scroll da página quando modal estiver aberto */
+body.lock{ overflow:hidden }
 </style>
 </head>
 <body class="font-sans">
@@ -271,15 +283,13 @@ html,body{ background:#0b0f14; color:var(--ink,rgba(255,255,255,.92)); }
 </main>
 
 <!-- MODAL O.S. -->
-<div id="osModalWrap" class="modal-backdrop hiddenEl">
+<div id="osModalWrap" class="modal-backdrop hiddenEl" aria-hidden="true">
   <div class="modal w-full">
     <div class="modal-h flex items-center justify-between">
       <div class="font-bold" id="osModalTitle">O.S.</div>
       <button id="osModalClose" class="btn btn-ghost">Fechar</button>
     </div>
-    <div class="modal-b grid gap-3" id="osModalBody">
-      <!-- conteúdo injetado via JS -->
-    </div>
+    <div class="modal-b grid gap-3" id="osModalBody"><!-- injetado --></div>
     <div class="modal-f flex items-center justify-between">
       <button id="btnDelOS" class="btn btn-ghost">Excluir</button>
       <div class="flex gap-2">
@@ -397,8 +407,8 @@ function renderKanban(){
   $('#kanbanE').innerHTML = col('and').map(item).join('');    $('#cE').textContent = col('and').length;
   $('#kanbanC').innerHTML = col('concluida').map(item).join(''); $('#cC').textContent = col('concluida').length;
 }
-function listify(arr, fields, onClick){
-  return arr.map(r => `<button class="list-card text-left" ${onClick? `data-id="${r.id}"` : ''}>
+function listify(arr, fields, clickable){
+  return arr.map(r => `<button class="list-card text-left" ${clickable? `data-id="${r.id}"` : ''}>
     ${fields.map(f => cardLine(f.label, f.fmt? f.fmt(r[f.key], r): (r[f.key]??''))).join('')}
   </button>`).join('');
 }
@@ -407,7 +417,6 @@ function renderOS(){
   $('#osList').innerHTML = listify(os, [
     {key:'id',label:'Código'},{key:'cliente',label:'Cliente'},{key:'servico',label:'Serviço'},
     {key:'status',label:'Status'},{key:'valor',label:'Valor', fmt:v=>money(v)} ], true);
-  // clique abre modal
   $$('#osList .list-card').forEach(btn => btn.addEventListener('click', ()=> openOSModal(btn.dataset.id)));
 }
 function renderOrc(){ 
@@ -461,6 +470,7 @@ function drawChart(){
 
 /* ===== MODAL O.S. ===== */
 let currentOSId = null, sigDrawing=false, sigLast=null;
+
 function openOSModal(id){
   currentOSId = id;
   const os = get('nevar_os').find(x=>x.id===id);
@@ -519,19 +529,16 @@ function openOSModal(id){
       </div>
     </div>
   `;
+  document.body.classList.add('lock');   // BLOQUEIA SCROLL
   show('osModalWrap');
 
   // upload de fotos
   $('#osFotoUp').addEventListener('change', async (e)=>{
     const files = [...e.target.files].slice(0,6);
     const urls = [];
-    for(const f of files){
-      const b64 = await fileToDataUrl(f);
-      urls.push(b64);
-    }
+    for(const f of files){ urls.push(await fileToDataUrl(f)); }
     const all = (os.fotos||[]).concat(urls).slice(0,12);
-    os.fotos = all; saveCurrentOS(os);
-    openOSModal(id); // re-render
+    os.fotos = all; saveCurrentOS(os); openOSModal(id); // re-render
   });
   $$('#osFotos .delImg').forEach(btn=>{
     btn.addEventListener('click', ()=>{
@@ -542,9 +549,7 @@ function openOSModal(id){
   // assinatura
   const cvs = $('#sig'), ctx = cvs.getContext('2d');
   resizeCanvasToDisplaySize(cvs);
-  if(os.ass){ // desenha por cima se quiser continuar
-    const img = new Image(); img.onload=()=>ctx.drawImage(img,0,0,cvs.width,cvs.height); img.src=os.ass;
-  }
+  if(os.ass){ const img = new Image(); img.onload=()=>ctx.drawImage(img,0,0,cvs.width,cvs.height); img.src=os.ass; }
   cvs.addEventListener('pointerdown', e=>{ sigDrawing=true; sigLast=pt(cvs,e); });
   cvs.addEventListener('pointermove', e=>{
     if(!sigDrawing) return; const p=pt(cvs,e); ctx.lineCap='round'; ctx.strokeStyle='#00c2ff'; ctx.lineWidth=2.2;
@@ -561,21 +566,18 @@ function openOSModal(id){
     os.valor   = parseFloat($('#osVal').value || '0');
     os.obs     = $('#osObs').value.trim();
     try { os.ass = cvs.toDataURL('image/png'); $('#sigPrev').src=os.ass; $('#sigPrev').classList.remove('hidden'); } catch(e){}
-    saveCurrentOS(os); hide('osModalWrap'); refreshAll();
+    saveCurrentOS(os); closeOSModal(); refreshAll();
   };
-  $('#osModalClose').onclick = ()=> hide('osModalWrap');
-  $('#btnDelOS').onclick = ()=>{ if(confirm('Excluir esta O.S.?')){ const arr=get('nevar_os').filter(x=>x.id!==id); set('nevar_os',arr); hide('osModalWrap'); refreshAll(); } };
+  $('#osModalClose').onclick = closeOSModal;
+  $('#btnDelOS').onclick = ()=>{ if(confirm('Excluir esta O.S.?')){ const arr=get('nevar_os').filter(x=>x.id!==id); set('nevar_os',arr); closeOSModal(); refreshAll(); } };
   $('#btnExportOS').onclick = ()=> exportOSPdf(os);
 }
 
-function saveCurrentOS(os){
-  const arr = get('nevar_os').map(x=> x.id===os.id ? os : x);
-  set('nevar_os', arr);
-}
+function closeOSModal(){ hide('osModalWrap'); document.body.classList.remove('lock'); }
 
-function fileToDataUrl(file){
-  return new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=rej; r.readAsDataURL(file); });
-}
+function saveCurrentOS(os){ const arr = get('nevar_os').map(x=> x.id===os.id ? os : x); set('nevar_os', arr); }
+
+function fileToDataUrl(file){ return new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=rej; r.readAsDataURL(file); }); }
 function pt(c,e){ const r=c.getBoundingClientRect(); return {x: e.clientX - r.left, y: e.clientY - r.top}; }
 function resizeCanvasToDisplaySize(canvas){
   const {width,height} = canvas.getBoundingClientRect();
@@ -593,11 +595,7 @@ function exportOSPdf(os){
   win.document.write(`
   <html>
   <head><meta charset="utf-8"><title>${os.id} - Nevar</title>
-  <style>
-    body{ font-family:Inter,Arial,sans-serif; padding:24px; color:#111 }
-    .k{ color:#555; width:130px; display:inline-block } .b{ font-weight:700 }
-    .box{ border:1px solid #ddd; border-radius:12px; padding:12px; margin-top:10px }
-  </style></head>
+  <style>body{font-family:Inter,Arial,sans-serif;padding:24px;color:#111}.k{color:#555;width:130px;display:inline-block}.b{font-weight:700}.box{border:1px solid #ddd;border-radius:12px;padding:12px;margin-top:10px}</style></head>
   <body>
     <h2>Nevar — Ordem de Serviço</h2>
     <div class="box"><span class="k">Código:</span><span class="b">${os.id}</span></div>
@@ -605,7 +603,7 @@ function exportOSPdf(os){
     <div class="box"><span class="k">Serviço:</span>${os.servico}</div>
     <div class="box"><span class="k">Status:</span>${os.status}</div>
     <div class="box"><span class="k">Valor:</span>${money(os.valor)}</div>
-    <div class="box"><div class="k">Observações:</div><div>${(os.obs||'').replace(/\\n/g,'<br>')}</div></div>
+    <div class="box"><div class="k">Observações:</div><div>${(os.obs||'').replace(/\n/g,'<br>')}</div></div>
     <div class="box"><div style="margin-bottom:8px">Fotos:</div>${fotos || '<em>Sem fotos</em>'}</div>
     <div class="box"><div style="margin-bottom:8px">Assinatura:</div>${ass}</div>
     <script>window.print(); setTimeout(()=>window.close(), 500);<\/script>
@@ -614,9 +612,7 @@ function exportOSPdf(os){
 }
 
 /* ===== boot ===== */
-function renderAllFirst(){
-  selectTab('dashboard'); refreshAll();
-}
+function renderAllFirst(){ selectTab('dashboard'); refreshAll(); }
 if(isLogged()){ hide('authSection'); show('app'); renderAllFirst(); }
 </script>
 </body>
