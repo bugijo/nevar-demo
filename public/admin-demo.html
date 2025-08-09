@@ -1,64 +1,80 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Nevar • Painel Demo</title>
-  <meta name="description" content="Painel administrativo demo da Nevar: O.S., Orçamentos, Estoque, Financeiro, Relatórios e mais." />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: { sans: ['Inter','ui-sans-serif','system-ui'] },
-          colors: { brand:{500:'#00c2ff',600:'#00a9e0'}, base:'#0b1116' },
-          boxShadow:{ glow:'0 12px 50px rgba(0,194,255,.25)' }
-        }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nevar • Painel Demo</title>
+<meta name="description" content="Painel demo da Nevar: O.S., Orçamentos, Estoque, Financeiro, Relatórios, CMS/Leads e Usuários.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: { sans: ['Inter','ui-sans-serif','system-ui'] },
+      colors: {
+        base:'#0b0f14',
+        card:'#11161c',
+        edge:'rgba(255,255,255,.06)',
+        ink:'rgba(255,255,255,.85)',
+        mute:'rgba(255,255,255,.55)',
+        brand:{ 500:'#00c2ff', 600:'#00a9e0' },
+        ok:'#34d399', warn:'#f59e0b', danger:'#ef4444'
+      },
+      boxShadow:{ glow:'0 14px 48px rgba(0,194,255,.28)' },
+      backgroundImage:{
+        hero:'radial-gradient(1200px 500px at 50% -10%, rgba(0,194,255,.18), transparent 60%)'
       }
     }
-  </script>
-  <style>
-    html,body{ background:#0f141a; color:#e6eef6 }
-    .card{ background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); border-radius:16px }
-    .btn{ display:inline-flex; align-items:center; justify-content:center; padding:.8rem 1rem; border-radius:12px; font-weight:600; transition:.2s }
-    .btn-primary{ background:#00c2ff; color:#031018 }
-    .btn-primary:hover{ background:#00a9e0; box-shadow:0 12px 38px rgba(0,194,255,.28) }
-    .btn-ghost{ border:1px solid rgba(255,255,255,.15) }
-    .tag{ padding:.25rem .6rem; border:1px solid rgba(255,255,255,.15); border-radius:999px; font-size:.7rem }
-    .grid-col{ min-height: 240px }
-    .hiddenEl{ display:none }
-  </style>
+  }
+}
+</script>
+<style>
+html,body{ background:#0b0f14; color:var(--ink,rgba(255,255,255,.92)); }
+.card{ background:#11161c; border:1px solid rgba(255,255,255,.06); border-radius:16px }
+.soft{ background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.05) }
+.btn{ display:inline-flex; align-items:center; justify-content:center; padding:.85rem 1rem; border-radius:12px; font-weight:700; }
+.btn-primary{ background:#00c2ff; color:#001219; }
+.btn-primary:hover{ background:#00a9e0; box-shadow:0 12px 36px rgba(0,194,255,.28) }
+.btn-ghost{ border:1px solid rgba(255,255,255,.12) }
+.badge{ padding:.22rem .6rem; border:1px solid rgba(255,255,255,.12); border-radius:999px; font-size:.72rem }
+.hiddenEl{ display:none }
+.sticky-bottom{ position:sticky; bottom:0 }
+.tab-active{ color:#00c2ff }
+.kpi{ display:flex; flex-direction:column; gap:.25rem; }
+.kpi .v{ font-size:1.6rem; font-weight:800; }
+.list-card{ border-radius:14px; border:1px solid rgba(255,255,255,.08); background:#0f141a; padding:.9rem }
+@media (min-width:1024px){ .container-grid{ grid-template-columns: 240px 1fr; } }
+</style>
 </head>
 <body class="font-sans">
 
-<!-- Topbar -->
-<header class="sticky top-0 z-40 border-b border-white/10 bg-[#0f141a]/70 backdrop-blur">
-  <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+<!-- TOPBAR -->
+<header class="sticky top-0 z-40 border-b border-edge/50 bg-base/80 backdrop-blur">
+  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
     <div class="flex items-center gap-3">
-      <div class="w-9 h-9 rounded-xl bg-brand-500 grid place-items-center font-extrabold text-[#02151b]">NV</div>
+      <div class="w-9 h-9 rounded-xl bg-brand-500 grid place-items-center font-extrabold text-[#03131a]">NV</div>
       <div class="font-extrabold tracking-wide">Nevar</div>
-      <span class="hidden md:inline text-white/50 text-sm">• Painel Demo</span>
+      <span class="hidden sm:inline text-mute text-sm">• Painel Demo</span>
     </div>
     <div class="flex items-center gap-2">
-      <a class="hidden sm:inline-flex btn btn-ghost" href="/site.html">Ver Site</a>
-      <a class="hidden sm:inline-flex btn btn-ghost" href="https://wa.me/5511999999999?text=Olá%20Nevar!%20Quero%20entender%20o%20sistema.">WhatsApp</a>
+      <a class="hidden sm:inline-flex btn btn-ghost" href="/site.html" target="_blank">Ver Site</a>
       <button id="btnLogout" class="btn btn-ghost">Sair</button>
     </div>
   </div>
 </header>
 
-<!-- Primeiro Acesso / Login -->
-<section id="authSection" class="max-w-3xl mx-auto p-4 mt-8">
-  <div id="firstAccess" class="card p-6">
-    <h1 class="text-2xl md:text-3xl font-extrabold">Primeiro Acesso — Nevar</h1>
-    <p class="text-white/60 mt-1">Crie o usuário Administrador para começar</p>
+<!-- AUTH -->
+<section id="authSection" class="max-w-md mx-auto p-4">
+  <div id="firstAccess" class="card p-6 mt-6">
+    <h1 class="text-2xl font-extrabold">Primeiro Acesso — Nevar</h1>
+    <p class="text-mute mt-1">Crie o Administrador para começar</p>
     <form id="firstForm" class="mt-4 grid gap-3">
-      <input class="rounded-xl px-4 py-3 bg-white/5 border border-white/10" placeholder="Nome" required>
-      <input class="rounded-xl px-4 py-3 bg-white/5 border border-white/10" placeholder="E-mail" type="email" required>
-      <input class="rounded-xl px-4 py-3 bg-white/5 border border-white/10" placeholder="Senha" type="password" required>
+      <input class="rounded-xl px-4 py-3 soft" placeholder="Nome" required>
+      <input class="rounded-xl px-4 py-3 soft" placeholder="E-mail" type="email" required>
+      <input class="rounded-xl px-4 py-3 soft" placeholder="Senha" type="password" required>
       <button class="btn btn-primary">Criar Administrador</button>
     </form>
   </div>
@@ -66,384 +82,359 @@
   <div id="loginBox" class="card p-6 mt-4">
     <h2 class="text-xl font-bold">Entrar</h2>
     <form id="loginForm" class="mt-3 grid gap-3">
-      <input id="loginEmail" class="rounded-xl px-4 py-3 bg-white/5 border border-white/10" placeholder="E-mail" type="email" required>
-      <input id="loginPass"  class="rounded-xl px-4 py-3 bg-white/5 border border-white/10" placeholder="Senha" type="password" required>
+      <input id="loginEmail" class="rounded-xl px-4 py-3 soft" placeholder="E-mail" type="email" required>
+      <input id="loginPass"  class="rounded-xl px-4 py-3 soft" placeholder="Senha" type="password" required>
       <button class="btn btn-primary">Acessar</button>
     </form>
   </div>
 </section>
 
-<!-- App -->
-<main id="app" class="max-w-7xl mx-auto p-4 mt-6 hiddenEl">
-  <div class="grid lg:grid-cols-[220px_1fr] gap-4">
-    <!-- Sidebar -->
-    <aside class="card p-3 h-fit">
-      <nav id="menu" class="grid gap-1 text-sm">
-        <button data-tab="dashboard"  class="tab btn-ghost px-3 py-2 text-left rounded-lg">Dashboard</button>
-        <button data-tab="os"         class="tab btn-ghost px-3 py-2 text-left rounded-lg">O.S.</button>
-        <button data-tab="orcamentos" class="tab btn-ghost px-3 py-2 text-left rounded-lg">Orçamentos</button>
-        <button data-tab="estoque"    class="tab btn-ghost px-3 py-2 text-left rounded-lg">Estoque</button>
-        <button data-tab="financeiro" class="tab btn-ghost px-3 py-2 text-left rounded-lg">Financeiro</button>
-        <button data-tab="relatorios" class="tab btn-ghost px-3 py-2 text-left rounded-lg">Relatórios</button>
-        <button data-tab="cms"        class="tab btn-ghost px-3 py-2 text-left rounded-lg">CMS / Leads</button>
-        <button data-tab="usuarios"   class="tab btn-ghost px-3 py-2 text-left rounded-lg">Usuários</button>
-        <button data-tab="tecnicos"   class="tab btn-ghost px-3 py-2 text-left rounded-lg">Técnicos</button>
-      </nav>
-    </aside>
+<!-- APP -->
+<main id="app" class="hiddenEl">
+  <section class="max-w-6xl mx-auto px-4 py-4">
 
-    <!-- Content -->
-    <section class="grid gap-4">
-      <!-- DASHBOARD -->
-      <div id="tab-dashboard" class="card p-5">
-        <h2 class="text-xl font-bold">Resumo</h2>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-3">
-          <div class="card p-4"><div class="text-sm text-white/60">O.S. Abertas</div><div id="kOsAbertas" class="text-2xl font-extrabold">0</div></div>
-          <div class="card p-4"><div class="text-sm text-white/60">O.S. Em Andamento</div><div id="kOsAnd" class="text-2xl font-extrabold">0</div></div>
-          <div class="card p-4"><div class="text-sm text-white/60">Orçamentos Pendentes</div><div id="kOrcPend" class="text-2xl font-extrabold">0</div></div>
-          <div class="card p-4"><div class="text-sm text-white/60">Faturamento (Mês)</div><div id="kFatMes" class="text-2xl font-extrabold">R$ 0</div></div>
+    <!-- HERO/HEADER INTERNO -->
+    <div class="card p-4 mb-4 bg-[image:var(--bg)]" style="background-image:var(--bg),var(--hero); --bg:url(); --hero: none;">
+      <div class="flex items-center justify-between">
+        <div>
+          <div class="badge">NEVAR • ADMIN</div>
+          <h1 class="text-2xl font-extrabold mt-2">Painel • Visão Geral</h1>
+          <p class="text-mute text-sm">Gerencie O.S., orçamentos, estoque e finanças.</p>
         </div>
+        <a class="hidden sm:inline-flex btn btn-primary" href="https://wa.me/5511999999999?text=Olá%20Nevar!%20Quero%20entender%20o%20sistema.">WhatsApp</a>
+      </div>
+    </div>
 
-        <div class="grid md:grid-cols-3 gap-4 mt-4">
-          <div class="card p-4 md:col-span-2">
-            <div class="flex items-center justify-between">
-              <h3 class="font-bold">O.S. — Kanban</h3>
-              <button id="btnNovaOS" class="btn btn-primary">Nova O.S.</button>
+    <!-- GRID: SIDEBAR + CONTEÚDO (desktop) -->
+    <div class="grid gap-4 lg:container-grid">
+      <!-- SIDEBAR DESKTOP -->
+      <aside class="hidden lg:block card p-3 h-fit">
+        <nav id="menu" class="grid gap-1 text-sm">
+          <button data-tab="dashboard"  class="tab px-3 py-2 rounded-lg text-left hover:bg-white/5">Dashboard</button>
+          <button data-tab="os"         class="tab px-3 py-2 rounded-lg text-left hover:bg-white/5">O.S.</button>
+          <button data-tab="orcamentos" class="tab px-3 py-2 rounded-lg text-left hover:bg-white/5">Orçamentos</button>
+          <button data-tab="estoque"    class="tab px-3 py-2 rounded-lg text-left hover:bg-white/5">Estoque</button>
+          <button data-tab="financeiro" class="tab px-3 py-2 rounded-lg text-left hover:bg-white/5">Financeiro</button>
+          <button data-tab="relatorios" class="tab px-3 py-2 rounded-lg text-left hover:bg-white/5">Relatórios</button>
+          <button data-tab="cms"        class="tab px-3 py-2 rounded-lg text-left hover:bg-white/5">CMS / Leads</button>
+          <button data-tab="usuarios"   class="tab px-3 py-2 rounded-lg text-left hover:bg-white/5">Usuários</button>
+          <button data-tab="tecnicos"   class="tab px-3 py-2 rounded-lg text-left hover:bg-white/5">Técnicos</button>
+        </nav>
+      </aside>
+
+      <!-- CONTEÚDO -->
+      <section class="grid gap-4">
+
+        <!-- DASHBOARD -->
+        <div id="tab-dashboard" class="card p-4">
+          <h2 class="text-lg font-bold">Resumo</h2>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
+            <div class="soft p-4 kpi"><span class="text-mute text-xs">O.S. Abertas</span><span id="kOsAbertas" class="v">0</span></div>
+            <div class="soft p-4 kpi"><span class="text-mute text-xs">Em Andamento</span><span id="kOsAnd" class="v">0</span></div>
+            <div class="soft p-4 kpi"><span class="text-mute text-xs">Orç. Pendentes</span><span id="kOrcPend" class="v">0</span></div>
+            <div class="soft p-4 kpi"><span class="text-mute text-xs">Faturamento</span><span id="kFatMes" class="v">R$ 0</span></div>
+          </div>
+
+          <div class="grid md:grid-cols-3 gap-4 mt-4">
+            <div class="soft p-4 md:col-span-2">
+              <div class="flex items-center justify-between">
+                <h3 class="font-bold">O.S. — Kanban</h3>
+                <button id="btnNovaOS" class="btn btn-primary">Nova O.S.</button>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-3">
+                <div class="list-card">
+                  <div class="flex items-center justify-between"><b>Abertas</b><span class="badge" id="cA">0</span></div>
+                  <div id="kanbanA" class="mt-2 space-y-2"></div>
+                </div>
+                <div class="list-card">
+                  <div class="flex items-center justify-between"><b>Em andamento</b><span class="badge" id="cE">0</span></div>
+                  <div id="kanbanE" class="mt-2 space-y-2"></div>
+                </div>
+                <div class="list-card">
+                  <div class="flex items-center justify-between"><b>Concluídas</b><span class="badge" id="cC">0</span></div>
+                  <div id="kanbanC" class="mt-2 space-y-2"></div>
+                </div>
+              </div>
             </div>
-            <div class="grid md:grid-cols-3 gap-3 mt-3">
-              <div class="card p-3 grid-col">
-                <div class="flex items-center justify-between"><b>Abertas</b><span class="tag" id="cA">0</span></div>
-                <div id="kanbanA" class="mt-2 space-y-2"></div>
-              </div>
-              <div class="card p-3 grid-col">
-                <div class="flex items-center justify-between"><b>Em andamento</b><span class="tag" id="cE">0</span></div>
-                <div id="kanbanE" class="mt-2 space-y-2"></div>
-              </div>
-              <div class="card p-3 grid-col">
-                <div class="flex items-center justify-between"><b>Concluídas</b><span class="tag" id="cC">0</span></div>
-                <div id="kanbanC" class="mt-2 space-y-2"></div>
-              </div>
+            <div class="soft p-4">
+              <h3 class="font-bold">Fluxo de Caixa (demo)</h3>
+              <canvas id="chart" class="w-full h-[180px]"></canvas>
+              <div class="text-xs text-mute mt-2">Gráfico ilustrativo.</div>
             </div>
           </div>
-          <div class="card p-4">
-            <h3 class="font-bold">Fluxo de Caixa (demo)</h3>
-            <canvas id="chart" width="400" height="230"></canvas>
-            <div class="text-xs text-white/50 mt-2">Gráfico ilustrativo.</div>
+        </div>
+
+        <!-- O.S. -->
+        <div id="tab-os" class="card p-4 hiddenEl">
+          <div class="flex items-center justify-between">
+            <h2 class="text-lg font-bold">Ordens de Serviço</h2>
+            <button id="btnNovaOS2" class="btn btn-primary">Nova O.S.</button>
           </div>
+          <div id="osList" class="mt-3 grid gap-2"></div>
         </div>
-      </div>
 
-      <!-- O.S. -->
-      <div id="tab-os" class="card p-5 hiddenEl">
-        <div class="flex items-center justify-between">
-          <h2 class="text-xl font-bold">Ordens de Serviço</h2>
-          <button id="btnNovaOS2" class="btn btn-primary">Nova O.S.</button>
+        <!-- Orçamentos -->
+        <div id="tab-orcamentos" class="card p-4 hiddenEl">
+          <div class="flex items-center justify-between">
+            <h2 class="text-lg font-bold">Orçamentos</h2>
+            <button id="btnNovoOrc" class="btn btn-primary">Novo Orçamento</button>
+          </div>
+          <div id="orcList" class="mt-3 grid gap-2"></div>
         </div>
-        <div id="tableOS" class="mt-3 overflow-x-auto"></div>
-      </div>
 
-      <!-- Orçamentos -->
-      <div id="tab-orcamentos" class="card p-5 hiddenEl">
-        <div class="flex items-center justify-between">
-          <h2 class="text-xl font-bold">Orçamentos</h2>
-          <button id="btnNovoOrc" class="btn btn-primary">Novo Orçamento</button>
+        <!-- Estoque -->
+        <div id="tab-estoque" class="card p-4 hiddenEl">
+          <h2 class="text-lg font-bold">Estoque</h2>
+          <div id="stkList" class="mt-3 grid gap-2"></div>
         </div>
-        <div id="tableOrc" class="mt-3 overflow-x-auto"></div>
-      </div>
 
-      <!-- Estoque -->
-      <div id="tab-estoque" class="card p-5 hiddenEl">
-        <h2 class="text-xl font-bold">Estoque</h2>
-        <div id="tableEstoque" class="mt-3 overflow-x-auto"></div>
-      </div>
-
-      <!-- Financeiro -->
-      <div id="tab-financeiro" class="card p-5 hiddenEl">
-        <h2 class="text-xl font-bold">Financeiro</h2>
-        <div class="grid md:grid-cols-3 gap-3 mt-3">
-          <div class="card p-4"><div class="text-sm text-white/60">A Receber</div><div id="fatRec" class="text-2xl font-extrabold">R$ 0</div></div>
-          <div class="card p-4"><div class="text-sm text-white/60">A Pagar</div><div id="fatPag" class="text-2xl font-extrabold">R$ 0</div></div>
-          <div class="card p-4"><div class="text-sm text-white/60">Saldo</div><div id="fatSaldo" class="text-2xl font-extrabold">R$ 0</div></div>
+        <!-- Financeiro -->
+        <div id="tab-financeiro" class="card p-4 hiddenEl">
+          <h2 class="text-lg font-bold">Financeiro</h2>
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mt-3">
+            <div class="soft p-4 kpi"><span class="text-mute text-xs">A Receber</span><span id="fatRec" class="v">R$ 0</span></div>
+            <div class="soft p-4 kpi"><span class="text-mute text-xs">A Pagar</span><span id="fatPag" class="v">R$ 0</span></div>
+            <div class="soft p-4 kpi md:col-span-1 col-span-2"><span class="text-mute text-xs">Saldo</span><span id="fatSaldo" class="v">R$ 0</span></div>
+          </div>
+          <div id="finList" class="mt-3 grid gap-2"></div>
         </div>
-        <div id="tableFin" class="mt-3 overflow-x-auto"></div>
-      </div>
 
-      <!-- Relatórios -->
-      <div id="tab-relatorios" class="card p-5 hiddenEl">
-        <h2 class="text-xl font-bold">Relatórios</h2>
-        <ul class="mt-3 grid gap-2">
-          <li class="card p-4">📄 O.S. por status (mensal)</li>
-          <li class="card p-4">📄 Faturamento por serviço</li>
-          <li class="card p-4">📄 Consumo de peças por técnico</li>
-        </ul>
-      </div>
-
-      <!-- CMS / Leads -->
-      <div id="tab-cms" class="card p-5 hiddenEl">
-        <div class="flex items-center justify-between">
-          <h2 class="text-xl font-bold">Leads (site)</h2>
-          <a class="btn btn-ghost" href="/site.html" target="_blank">Abrir site</a>
+        <!-- Relatórios -->
+        <div id="tab-relatorios" class="card p-4 hiddenEl">
+          <h2 class="text-lg font-bold">Relatórios</h2>
+          <ul class="mt-3 grid gap-2">
+            <li class="list-card">📄 O.S. por status (mensal)</li>
+            <li class="list-card">📄 Faturamento por serviço</li>
+            <li class="list-card">📄 Consumo de peças por técnico</li>
+          </ul>
         </div>
-        <p class="text-white/60 text-sm">Leads capturados em <code>localStorage.nevar_leads</code>.</p>
-        <div id="tableLeads" class="mt-3 overflow-x-auto"></div>
-      </div>
 
-      <!-- Usuários -->
-      <div id="tab-usuarios" class="card p-5 hiddenEl">
-        <div class="flex items-center justify-between">
-          <h2 class="text-xl font-bold">Usuários</h2>
-          <button id="btnAddUser" class="btn btn-primary">Novo Usuário</button>
+        <!-- CMS -->
+        <div id="tab-cms" class="card p-4 hiddenEl">
+          <div class="flex items-center justify-between">
+            <h2 class="text-lg font-bold">Leads do Site</h2>
+            <a class="btn btn-ghost" href="/site.html" target="_blank">Abrir site</a>
+          </div>
+          <p class="text-mute text-sm">Leads salvos em <code>localStorage.nevar_leads</code>.</p>
+          <div id="leadList" class="mt-3 grid gap-2"></div>
         </div>
-        <div id="tableUsers" class="mt-3 overflow-x-auto"></div>
-      </div>
 
-      <!-- Técnicos -->
-      <div id="tab-tecnicos" class="card p-5 hiddenEl">
-        <h2 class="text-xl font-bold">Tarefas do Técnico</h2>
-        <div id="tableTec" class="mt-3 overflow-x-auto"></div>
-      </div>
-    </section>
-  </div>
+        <!-- Usuários -->
+        <div id="tab-usuarios" class="card p-4 hiddenEl">
+          <div class="flex items-center justify-between">
+            <h2 class="text-lg font-bold">Usuários</h2>
+            <button id="btnAddUser" class="btn btn-primary">Novo Usuário</button>
+          </div>
+          <div id="usrList" class="mt-3 grid gap-2"></div>
+        </div>
+
+        <!-- Técnicos -->
+        <div id="tab-tecnicos" class="card p-4 hiddenEl">
+          <h2 class="text-lg font-bold">Tarefas do Técnico</h2>
+          <div id="tecList" class="mt-3 grid gap-2"></div>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <!-- NAV INFERIOR (mobile) -->
+  <nav class="lg:hidden sticky-bottom border-t border-edge/60 bg-base/90 backdrop-blur">
+    <div class="max-w-6xl mx-auto grid grid-cols-5 text-xs">
+      <button data-tab="dashboard"  class="m-1 py-3 text-center tabm">🏠<div>Home</div></button>
+      <button data-tab="os"         class="m-1 py-3 text-center tabm">🧾<div>O.S.</div></button>
+      <button data-tab="orcamentos" class="m-1 py-3 text-center tabm">💬<div>Orç.</div></button>
+      <button data-tab="financeiro" class="m-1 py-3 text-center tabm">💼<div>Fin.</div></button>
+      <button data-tab="cms"        class="m-1 py-3 text-center tabm">📣<div>Leads</div></button>
+    </div>
+  </nav>
 </main>
 
 <script>
-/* ========== helpers UI ========== */
+/* ===== helpers ===== */
 const $ = s => document.querySelector(s);
 const $$ = s => Array.from(document.querySelectorAll(s));
+const get = k => JSON.parse(localStorage.getItem(k)||'[]');
+const set = (k,v) => localStorage.setItem(k, JSON.stringify(v));
 const money = v => 'R$ ' + (v).toLocaleString('pt-BR', {minimumFractionDigits:2});
-const setHTML = (el, html) => (el.innerHTML = html);
 const show = id => $('#'+id).classList.remove('hiddenEl');
 const hide = id => $('#'+id).classList.add('hiddenEl');
 
-/* ========== seed demo ==========
-   Se já existir no localStorage, preserva. */
-const seed = () => {
-  if(!localStorage.getItem('demo_seed')){
-    const os = [
-      {id:'OS-101', cliente:'Restaurante Aurora', servico:'Câmara fria', status:'aberta', valor: 3200},
-      {id:'OS-102', cliente:'Clínica Vita', servico:'VRF', status:'andamento', valor: 12800},
-      {id:'OS-103', cliente:'Supermercado Max', servico:'Split', status:'andamento', valor: 1800},
-      {id:'OS-104', cliente:'Hotel Blue', servico:'Preventiva', status:'concluida', valor: 950}
-    ];
-    const orc = [
-      {id:'ORC-7001', cliente:'Rest. Flor do Mar', item:'Split 24k + Instalação', status:'pendente', valor: 4900},
-      {id:'ORC-7002', cliente:'TechLab', item:'VRF 20TR', status:'enviado', valor: 86000}
-    ];
-    const stk = [
-      {sku:'PE-001', nome:'Gás R410A', qtd: 12, minimo:5},
-      {sku:'PE-002', nome:'Filtro Secador', qtd: 30, minimo:10},
-      {sku:'PE-003', nome:'Válvula de Expansão', qtd: 8, minimo:5}
-    ];
-    const fin = [
-      {id:'F-01', tipo:'receber', desc:'OS-102 • VRF', valor: 12800},
-      {id:'F-02', tipo:'receber', desc:'OS-103 • Split', valor: 1800},
-      {id:'F-03', tipo:'pagar',   desc:'Compra de peças', valor: 3500}
-    ];
-    const users = [
-      {nome:'Admin', email:'admin@nevar.com', perfil:'Administrador'}
-    ];
-    const tec = [
+/* ===== seed ===== */
+(function seed(){
+  if(!localStorage.getItem('demo_seed_v2')){
+    set('nevar_os', [
+      {id:'OS-101', cliente:'Restaurante Aurora', servico:'Câmara fria', status:'aberta', valor:3200},
+      {id:'OS-102', cliente:'Clínica Vita', servico:'VRF', status:'andamento', valor:12800},
+      {id:'OS-103', cliente:'Supermercado Max', servico:'Split', status:'andamento', valor:1800},
+      {id:'OS-104', cliente:'Hotel Blue', servico:'Preventiva', status:'concluida', valor:950}
+    ]);
+    set('nevar_orc', [
+      {id:'ORC-7001', cliente:'Rest. Flor do Mar', item:'Split 24k + Instalação', status:'pendente', valor:4900},
+      {id:'ORC-7002', cliente:'TechLab', item:'VRF 20TR', status:'enviado', valor:86000}
+    ]);
+    set('nevar_stock', [
+      {sku:'PE-001', nome:'Gás R410A', qtd:12, minimo:5},
+      {sku:'PE-002', nome:'Filtro Secador', qtd:30, minimo:10},
+      {sku:'PE-003', nome:'Válvula de Expansão', qtd:8, minimo:5}
+    ]);
+    set('nevar_fin', [
+      {id:'F-01', tipo:'receber', desc:'OS-102 • VRF', valor:12800},
+      {id:'F-02', tipo:'receber', desc:'OS-103 • Split', valor:1800},
+      {id:'F-03', tipo:'pagar',   desc:'Compra de peças', valor:3500}
+    ]);
+    set('nevar_users', [{nome:'Admin', email:'admin@nevar.com', perfil:'Administrador'}]);
+    set('nevar_tec', [
       {tec:'Carlos', os:'OS-103', tarefa:'Instalar condensadora', status:'pendente'},
       {tec:'Fernanda', os:'OS-101', tarefa:'Ajuste termostato', status:'em execução'}
-    ];
-    localStorage.setItem('nevar_os', JSON.stringify(os));
-    localStorage.setItem('nevar_orc', JSON.stringify(orc));
-    localStorage.setItem('nevar_stock', JSON.stringify(stk));
-    localStorage.setItem('nevar_fin', JSON.stringify(fin));
-    localStorage.setItem('nevar_users', JSON.stringify(users));
-    localStorage.setItem('nevar_tec', JSON.stringify(tec));
-    localStorage.setItem('demo_seed','1');
+    ]);
+    localStorage.setItem('demo_seed_v2','1');
   }
-};
-seed();
+})();
 
-/* ========== auth ========== */
+/* ===== auth ===== */
 const hasAdmin = () => !!localStorage.getItem('nevar_admin');
 const setSession = v => localStorage.setItem('nevar_session', v?'1':'');
 const isLogged = () => !!localStorage.getItem('nevar_session');
 
-const renderAuth = () => {
-  if(!hasAdmin()){
-    show('firstAccess');
-  } else {
-    hide('firstAccess');
-  }
-};
+function renderAuth(){
+  if(!hasAdmin()) show('firstAccess'); else hide('firstAccess');
+}
 renderAuth();
 
 $('#firstForm').addEventListener('submit', e=>{
   e.preventDefault();
-  const [nome, email, senha] = [...e.target.querySelectorAll('input')].map(i=>i.value.trim());
+  const [nome,email,senha] = [...e.target.querySelectorAll('input')].map(i=>i.value.trim());
   localStorage.setItem('nevar_admin', JSON.stringify({nome,email,senha}));
-  alert('Administrador criado! Faça login abaixo.');
+  alert('Administrador criado! Faça login.');
   renderAuth();
 });
-
 $('#loginForm').addEventListener('submit', e=>{
   e.preventDefault();
-  const admin = JSON.parse(localStorage.getItem('nevar_admin') || '{}');
-  const email = $('#loginEmail').value.trim();
-  const senha = $('#loginPass').value.trim();
-  if(admin.email === email && admin.senha === senha){
-    setSession(true);
-    hide('authSection'); show('app');
-    selectTab('dashboard'); refreshAll();
-  } else {
-    alert('Credenciais inválidas');
-  }
+  const admin = JSON.parse(localStorage.getItem('nevar_admin')||'{}');
+  if($('#loginEmail').value.trim()===admin.email && $('#loginPass').value.trim()===admin.senha){
+    setSession(true); hide('authSection'); show('app'); selectTab('dashboard'); refreshAll();
+  } else alert('Credenciais inválidas');
 });
+$('#btnLogout').addEventListener('click', ()=>{ localStorage.removeItem('nevar_session'); show('authSection'); hide('app'); });
 
-$('#btnLogout').addEventListener('click', ()=>{
-  localStorage.removeItem('nevar_session');
-  show('authSection'); hide('app');
-});
-
-/* ========== navegação tabs ========== */
-const selectTab = (name) => {
-  $$('.tab').forEach(b=>b.classList.remove('bg-white','bg-white/10'));
-  $$('.tab').find(b=>b.dataset.tab===name)?.classList.add('bg-white/10');
+/* ===== navegação ===== */
+function selectTab(name){
+  // desktop
+  $$('#menu .tab').forEach(b=>b.classList.remove('bg-white/5','tab-active'));
+  $$('#menu .tab').find(b=>b.dataset.tab===name)?.classList.add('bg-white/5','tab-active');
+  // mobile bottom
+  $$('.tabm').forEach(b=>b.classList.remove('tab-active'));
+  $$('.tabm').find(b=>b.dataset.tab===name)?.classList.add('tab-active');
+  // sections
   ['dashboard','os','orcamentos','estoque','financeiro','relatorios','cms','usuarios','tecnicos']
     .forEach(id => (id===name?show('tab-'+id):hide('tab-'+id)));
-};
-$('#menu').addEventListener('click', e=>{
-  const btn = e.target.closest('.tab'); if(!btn) return;
-  selectTab(btn.dataset.tab);
-  if(btn.dataset.tab) refreshAll();
+}
+$('#menu')?.addEventListener('click', e=>{
+  const b = e.target.closest('.tab'); if(!b) return;
+  selectTab(b.dataset.tab); refreshAll();
+});
+document.querySelector('nav.sticky-bottom').addEventListener('click', e=>{
+  const b = e.target.closest('.tabm'); if(!b) return;
+  selectTab(b.dataset.tab); refreshAll();
 });
 
-/* ========== renderizadores ========== */
-const get = k => JSON.parse(localStorage.getItem(k) || '[]');
-
-function renderKanban(){
-  const os = get('nevar_os');
-  const by = s => os.filter(i => (s==='aberta'?i.status==='aberta': s==='and'?i.status==='andamento':i.status==='concluida'));
-  const item = o => `<div class="card p-3"><div class="font-semibold">${o.id}</div><div class="text-white/60 text-sm">${o.cliente}</div><div class="tag mt-2">${o.servico}</div></div>`;
-  setHTML($('#kanbanA'), by('aberta').map(item).join(''));
-  setHTML($('#kanbanE'), by('and').map(item).join(''));
-  setHTML($('#kanbanC'), by('concluida').map(item).join(''));
-  $('#cA').textContent = by('aberta').length;
-  $('#cE').textContent = by('and').length;
-  $('#cC').textContent = by('concluida').length;
-}
+/* ===== render helpers (cards em vez de tabelas no mobile) ===== */
+const cardLine = (left, right) => `<div class="flex items-center justify-between gap-3"><span class="text-mute text-sm">${left}</span><span class="font-semibold">${right}</span></div>`;
 
 function renderKPIs(){
-  const os = get('nevar_os');
-  const orc = get('nevar_orc');
+  const os = get('nevar_os'), orc = get('nevar_orc'), fin = get('nevar_fin');
   $('#kOsAbertas').textContent = os.filter(i=>i.status==='aberta').length;
   $('#kOsAnd').textContent    = os.filter(i=>i.status==='andamento').length;
   $('#kOrcPend').textContent  = orc.filter(i=>i.status==='pendente').length;
-  const fat = get('nevar_fin').reduce((a,i)=> a + (i.tipo==='receber'? i.valor : -i.valor), 0);
-  $('#kFatMes').textContent = money(fat);
+  const saldo = fin.reduce((a,i)=>a + (i.tipo==='receber'?i.valor:-i.valor), 0);
+  $('#kFatMes').textContent = money(saldo);
 }
 
-function table(arr, cols){
-  const head = `<tr>${cols.map(c=>`<th class="px-3 py-2 text-left text-white/60">${c.label}</th>`).join('')}</tr>`;
-  const body = arr.map(r => `<tr class="border-t border-white/10">
-    ${cols.map(c=>`<td class="px-3 py-2 text-sm">${(r[c.key]??'')}</td>`).join('')}
-  </tr>`).join('');
-  return `<table class="min-w-[600px] w-full">${head}${body}</table>`;
+function renderKanban(){
+  const os = get('nevar_os');
+  const col = (status) => os.filter(i => status==='aberta'? i.status==='aberta': status==='and'? i.status==='andamento' : i.status==='concluida');
+  const item = o => `<div class="soft p-3 rounded-xl">
+    <div class="font-semibold">${o.id}</div>
+    <div class="text-mute text-sm">${o.cliente}</div>
+    <div class="badge mt-2">${o.servico}</div>
+  </div>`;
+  $('#kanbanA').innerHTML = col('aberta').map(item).join(''); $('#cA').textContent = col('aberta').length;
+  $('#kanbanE').innerHTML = col('and').map(item).join('');    $('#cE').textContent = col('and').length;
+  $('#kanbanC').innerHTML = col('concluida').map(item).join(''); $('#cC').textContent = col('concluida').length;
 }
 
+function listify(arr, fields){
+  return arr.map(r => `<div class="list-card">
+    ${fields.map(f => cardLine(f.label, f.fmt? f.fmt(r[f.key], r): (r[f.key]??''))).join('')}
+  </div>`).join('');
+}
 function renderOS(){
-  setHTML($('#tableOS'), table(get('nevar_os'), [
-    {key:'id',label:'Código'}, {key:'cliente',label:'Cliente'}, {key:'servico',label:'Serviço'},
-    {key:'status',label:'Status'}, {key:'valor',label:'Valor'}
-  ]));
+  $('#osList').innerHTML = listify(get('nevar_os'), [
+    {key:'id',label:'Código'}, {key:'cliente',label:'Cliente'},
+    {key:'servico',label:'Serviço'}, {key:'status',label:'Status'},
+    {key:'valor',label:'Valor', fmt:v=>money(v)}
+  ]);
 }
 function renderOrc(){
-  setHTML($('#tableOrc'), table(get('nevar_orc'), [
-    {key:'id',label:'Código'}, {key:'cliente',label:'Cliente'}, {key:'item',label:'Item'},
-    {key:'status',label:'Status'}, {key:'valor',label:'Valor'}
-  ]));
+  $('#orcList').innerHTML = listify(get('nevar_orc'), [
+    {key:'id',label:'Código'}, {key:'cliente',label:'Cliente'},
+    {key:'item',label:'Item'}, {key:'status',label:'Status'},
+    {key:'valor',label:'Valor', fmt:v=>money(v)}
+  ]);
 }
 function renderStock(){
-  setHTML($('#tableEstoque'), table(get('nevar_stock'), [
-    {key:'sku',label:'SKU'}, {key:'nome',label:'Nome'}, {key:'qtd',label:'Qtd.'}, {key:'minimo',label:'Mín.'}
-  ]));
+  $('#stkList').innerHTML = listify(get('nevar_stock'), [
+    {key:'sku',label:'SKU'}, {key:'nome',label:'Produto'},
+    {key:'qtd',label:'Qtd.'}, {key:'minimo',label:'Mín.'}
+  ]);
 }
 function renderFin(){
   const fin = get('nevar_fin');
   const rec = fin.filter(f=>f.tipo==='receber').reduce((a,i)=>a+i.valor,0);
   const pag = fin.filter(f=>f.tipo==='pagar').reduce((a,i)=>a+i.valor,0);
-  $('#fatRec').textContent = money(rec);
-  $('#fatPag').textContent = money(pag);
-  $('#fatSaldo').textContent = money(rec - pag);
-  setHTML($('#tableFin'), table(fin, [
-    {key:'id',label:'ID'}, {key:'tipo',label:'Tipo'}, {key:'desc',label:'Descrição'}, {key:'valor',label:'Valor'}
-  ]));
+  $('#fatRec').textContent = money(rec); $('#fatPag').textContent = money(pag); $('#fatSaldo').textContent = money(rec-pag);
+  $('#finList').innerHTML = listify(fin, [
+    {key:'id',label:'ID'}, {key:'tipo',label:'Tipo'},
+    {key:'desc',label:'Descrição'}, {key:'valor',label:'Valor', fmt:v=>money(v)}
+  ]);
 }
 function renderLeads(){
-  const leads = get('nevar_leads').reverse();
-  if(!leads.length){ setHTML($('#tableLeads'), '<div class="text-white/60">Sem leads ainda. Envie pelo site.</div>'); return; }
-  setHTML($('#tableLeads'), table(leads.map(l=>({
-    data: new Date(l.data).toLocaleString('pt-BR'),
-    servico: l.servico || '-', nome: l.nome, contato: l.contato, mensagem: l.mensagem
-  })), [
-    {key:'data',label:'Data'}, {key:'servico',label:'Serviço'}, {key:'nome',label:'Nome'},
+  const leads = get('nevar_leads').slice().reverse();
+  $('#leadList').innerHTML = leads.length ? listify(leads, [
+    {key:'data',label:'Data', fmt:v=>new Date(v).toLocaleString('pt-BR')},
+    {key:'servico',label:'Serviço'}, {key:'nome',label:'Nome'},
     {key:'contato',label:'Contato'}, {key:'mensagem',label:'Mensagem'}
-  ]));
+  ]) : '<div class="text-mute">Sem leads ainda. Envie pelo site.</div>';
 }
-function renderUsers(){
-  setHTML($('#tableUsers'), table(get('nevar_users'), [
-    {key:'nome',label:'Nome'}, {key:'email',label:'E-mail'}, {key:'perfil',label:'Perfil'}
-  ]));
-}
-function renderTec(){
-  setHTML($('#tableTec'), table(get('nevar_tec'), [
-    {key:'tec',label:'Técnico'}, {key:'os',label:'O.S.'}, {key:'tarefa',label:'Tarefa'}, {key:'status',label:'Status'}
-  ]));
-}
+function renderUsers(){ $('#usrList').innerHTML = listify(get('nevar_users'), [
+  {key:'nome',label:'Nome'}, {key:'email',label:'E-mail'}, {key:'perfil',label:'Perfil'}
+]);}
+function renderTec(){ $('#tecList').innerHTML = listify(get('nevar_tec'), [
+  {key:'tec',label:'Técnico'}, {key:'os',label:'O.S.'}, {key:'tarefa',label:'Tarefa'}, {key:'status',label:'Status'}
+]);}
 
-function refreshAll(){
-  renderKPIs(); renderKanban(); renderOS(); renderOrc(); renderStock(); renderFin(); renderLeads(); renderUsers(); renderTec();
-  drawChart();
-}
+function refreshAll(){ renderKPIs(); renderKanban(); renderOS(); renderOrc(); renderStock(); renderFin(); renderLeads(); renderUsers(); renderTec(); drawChart(); }
 
-/* ========== ações rápidas (simulação) ========== */
-const addOS = () => {
-  const os = get('nevar_os');
-  const n = os.length + 105;
-  os.unshift({id:`OS-${n}`, cliente:'Novo Cliente', servico:'Split', status:'aberta', valor: 1500});
-  localStorage.setItem('nevar_os', JSON.stringify(os));
-  refreshAll();
-};
+/* ===== ações rápidas ===== */
+const addOS = () => { const os=get('nevar_os'); const n=os.length+110; os.unshift({id:`OS-${n}`, cliente:'Novo Cliente', servico:'Split', status:'aberta', valor:1500}); set('nevar_os',os); refreshAll(); };
 $('#btnNovaOS').addEventListener('click', addOS);
 $('#btnNovaOS2').addEventListener('click', addOS);
-$('#btnNovoOrc').addEventListener('click', ()=>{
-  const orc = get('nevar_orc');
-  orc.unshift({id:`ORC-${7000 + orc.length}`, cliente:'Cliente XYZ', item:'Preventiva trimestral', status:'pendente', valor: 2300});
-  localStorage.setItem('nevar_orc', JSON.stringify(orc));
-  refreshAll();
-});
-$('#btnAddUser').addEventListener('click', ()=>{
-  const users = get('nevar_users');
-  users.push({nome:'Novo Usuário', email:`user${users.length+1}@nevar.com`, perfil:'Recepção'});
-  localStorage.setItem('nevar_users', JSON.stringify(users));
-  refreshAll();
-});
+$('#btnNovoOrc').addEventListener('click', ()=>{ const o=get('nevar_orc'); o.unshift({id:`ORC-${7000+o.length}`, cliente:'Cliente XYZ', item:'Preventiva trimestral', status:'pendente', valor:2300}); set('nevar_orc',o); refreshAll(); });
+$('#btnAddUser').addEventListener('click', ()=>{ const u=get('nevar_users'); u.push({nome:'Novo Usuário', email:`user${u.length+1}@nevar.com`, perfil:'Recepção'}); set('nevar_users',u); refreshAll(); });
 
-/* ========== gráfico simples (sem libs) ========== */
+/* ===== gráfico simples responsivo ===== */
 function drawChart(){
-  const ctx = $('#chart').getContext('2d');
-  ctx.clearRect(0,0,400,230);
-  const data = [8,12,10,16,14,20];
-  const max = Math.max(...data);
-  const w = 400, h = 230, pad=24;
-  // eixo
-  ctx.strokeStyle = 'rgba(255,255,255,.25)';
-  ctx.beginPath(); ctx.moveTo(pad,h-pad); ctx.lineTo(w-pad,h-pad); ctx.stroke();
-  // barras
-  const bw = (w - pad*2) / data.length - 8;
-  data.forEach((v,i)=>{
-    const x = pad + i*(bw+8);
-    const bh = (h - pad*2) * (v/max);
-    ctx.fillStyle = i===data.length-1 ? '#00c2ff' : 'rgba(255,255,255,.5)';
-    ctx.fillRect(x, h-pad-bh, bw, bh);
-  });
+  const c = document.getElementById('chart'), ctx = c.getContext('2d');
+  const w = c.clientWidth, h = c.clientHeight; c.width=w; c.height=h;
+  ctx.clearRect(0,0,w,h);
+  const data = [8,12,10,16,14,20], max = Math.max(...data), pad=20, gap=8;
+  const bw = (w - pad*2 - gap*(data.length-1)) / data.length;
+  ctx.strokeStyle='rgba(255,255,255,.25)'; ctx.beginPath(); ctx.moveTo(pad,h-pad); ctx.lineTo(w-pad,h-pad); ctx.stroke();
+  data.forEach((v,i)=>{ const x=pad + i*(bw+gap); const bh=(h-pad*2)*(v/max); ctx.fillStyle= i===data.length-1?'#00c2ff':'rgba(255,255,255,.5)'; ctx.fillRect(x, h-pad-bh, bw, bh); });
 }
 
-/* ========== boot ==========
-   se já estava logado, vai direto ao app */
-if(isLogged()){ hide('authSection'); show('app'); selectTab('dashboard'); refreshAll(); }
+/* ===== boot ===== */
+if(localStorage.getItem('nevar_session')){ hide('authSection'); show('app'); selectTab('dashboard'); refreshAll(); }
 </script>
 </body>
 </html>
