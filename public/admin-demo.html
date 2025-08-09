@@ -11,42 +11,57 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
 tailwind.config = {
-  theme: {
-    extend: {
-      fontFamily: { sans: ['Inter','ui-sans-serif','system-ui'] },
-      colors: {
-        base:'#0b0f14',
-        card:'#11161c',
-        edge:'rgba(255,255,255,.06)',
-        ink:'rgba(255,255,255,.85)',
-        mute:'rgba(255,255,255,.55)',
-        brand:{ 500:'#00c2ff', 600:'#00a9e0' },
-        ok:'#34d399', warn:'#f59e0b', danger:'#ef4444'
-      },
-      boxShadow:{ glow:'0 14px 48px rgba(0,194,255,.28)' },
-      backgroundImage:{
-        hero:'radial-gradient(1200px 500px at 50% -10%, rgba(0,194,255,.18), transparent 60%)'
-      }
-    }
-  }
+  theme: { extend: {
+    fontFamily:{ sans:['Inter','ui-sans-serif','system-ui'] },
+    colors:{
+      base:'#0b0f14', card:'#11161c', edge:'rgba(255,255,255,.06)',
+      ink:'rgba(255,255,255,.88)', mute:'rgba(255,255,255,.58)',
+      brand:{500:'#00c2ff',600:'#00a9e0'}, ok:'#34d399', warn:'#f59e0b', danger:'#ef4444'
+    },
+    boxShadow:{ glow:'0 14px 48px rgba(0,194,255,.28)' }
+  } }
 }
 </script>
 <style>
 html,body{ background:#0b0f14; color:var(--ink,rgba(255,255,255,.92)); }
 .card{ background:#11161c; border:1px solid rgba(255,255,255,.06); border-radius:16px }
-.soft{ background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.05) }
+.soft{ background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.05); border-radius:14px }
 .btn{ display:inline-flex; align-items:center; justify-content:center; padding:.85rem 1rem; border-radius:12px; font-weight:700; }
 .btn-primary{ background:#00c2ff; color:#001219; }
 .btn-primary:hover{ background:#00a9e0; box-shadow:0 12px 36px rgba(0,194,255,.28) }
 .btn-ghost{ border:1px solid rgba(255,255,255,.12) }
 .badge{ padding:.22rem .6rem; border:1px solid rgba(255,255,255,.12); border-radius:999px; font-size:.72rem }
 .hiddenEl{ display:none }
-.sticky-bottom{ position:sticky; bottom:0 }
 .tab-active{ color:#00c2ff }
-.kpi{ display:flex; flex-direction:column; gap:.25rem; }
-.kpi .v{ font-size:1.6rem; font-weight:800; }
+
+/* Barra inferior fixa */
+.sticky-bottom{ position:fixed; left:0; right:0; bottom:env(safe-area-inset-bottom); z-index:60;
+  border-top:1px solid rgba(255,255,255,.08); background:rgba(11,15,20,.92); backdrop-filter:blur(10px) }
+.pad-tabbar{ padding-bottom:calc(84px + env(safe-area-inset-bottom)); }
+.tabm{ opacity:.85; transition:.15s } .tabm.tab-active{ color:#00c2ff; opacity:1 }
+
+/* listas em cards */
+.kpi{ display:flex; flex-direction:column; gap:.25rem } .kpi .v{ font-size:1.6rem; font-weight:800 }
 .list-card{ border-radius:14px; border:1px solid rgba(255,255,255,.08); background:#0f141a; padding:.9rem }
-@media (min-width:1024px){ .container-grid{ grid-template-columns: 240px 1fr; } }
+
+/* modal */
+.modal-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,.6); display:flex; align-items:flex-end; }
+@media (min-width:768px){ .modal-backdrop{ align-items:center; justify-content:center } }
+.modal{ width:100%; max-width:760px; background:#11161c; border:1px solid rgba(255,255,255,.08); border-radius:16px 16px 0 0; }
+@media (min-width:768px){ .modal{ border-radius:16px } }
+.modal-h{ padding:1rem 1.25rem; border-bottom:1px solid rgba(255,255,255,.08) }
+.modal-b{ padding:1rem 1.25rem }
+.modal-f{ padding:1rem 1.25rem; border-top:1px solid rgba(255,255,255,.08) }
+
+/* assinatura */
+.sig-pad{ background:#0e1318; border:1px dashed rgba(255,255,255,.12); border-radius:12px }
+
+/* FAB */
+.fab{ position:fixed; right:16px; bottom:calc(100px + env(safe-area-inset-bottom));
+  background:#00c2ff; color:#001219; width:56px; height:56px; border-radius:16px;
+  display:grid; place-items:center; font-size:28px; box-shadow:0 16px 40px rgba(0,194,255,.35); z-index:50 }
+.fab:active{ transform: translateY(1px) }
+@media (min-width:1024px){ .container-grid{ grid-template-columns: 240px 1fr } }
 </style>
 </head>
 <body class="font-sans">
@@ -72,9 +87,9 @@ html,body{ background:#0b0f14; color:var(--ink,rgba(255,255,255,.92)); }
     <h1 class="text-2xl font-extrabold">Primeiro Acesso — Nevar</h1>
     <p class="text-mute mt-1">Crie o Administrador para começar</p>
     <form id="firstForm" class="mt-4 grid gap-3">
-      <input class="rounded-xl px-4 py-3 soft" placeholder="Nome" required>
-      <input class="rounded-xl px-4 py-3 soft" placeholder="E-mail" type="email" required>
-      <input class="rounded-xl px-4 py-3 soft" placeholder="Senha" type="password" required>
+      <input class="px-4 py-3 soft" placeholder="Nome" required>
+      <input class="px-4 py-3 soft" placeholder="E-mail" type="email" required>
+      <input class="px-4 py-3 soft" placeholder="Senha" type="password" required>
       <button class="btn btn-primary">Criar Administrador</button>
     </form>
   </div>
@@ -82,19 +97,19 @@ html,body{ background:#0b0f14; color:var(--ink,rgba(255,255,255,.92)); }
   <div id="loginBox" class="card p-6 mt-4">
     <h2 class="text-xl font-bold">Entrar</h2>
     <form id="loginForm" class="mt-3 grid gap-3">
-      <input id="loginEmail" class="rounded-xl px-4 py-3 soft" placeholder="E-mail" type="email" required>
-      <input id="loginPass"  class="rounded-xl px-4 py-3 soft" placeholder="Senha" type="password" required>
+      <input id="loginEmail" class="px-4 py-3 soft" placeholder="E-mail" type="email" required>
+      <input id="loginPass"  class="px-4 py-3 soft" placeholder="Senha" type="password" required>
       <button class="btn btn-primary">Acessar</button>
     </form>
   </div>
 </section>
 
 <!-- APP -->
-<main id="app" class="hiddenEl">
+<main id="app" class="hiddenEl pad-tabbar">
   <section class="max-w-6xl mx-auto px-4 py-4">
 
-    <!-- HERO/HEADER INTERNO -->
-    <div class="card p-4 mb-4 bg-[image:var(--bg)]" style="background-image:var(--bg),var(--hero); --bg:url(); --hero: none;">
+    <!-- HEADER INTERNO -->
+    <div class="card p-4 mb-4">
       <div class="flex items-center justify-between">
         <div>
           <div class="badge">NEVAR • ADMIN</div>
@@ -177,7 +192,9 @@ html,body{ background:#0b0f14; color:var(--ink,rgba(255,255,255,.92)); }
         <div id="tab-orcamentos" class="card p-4 hiddenEl">
           <div class="flex items-center justify-between">
             <h2 class="text-lg font-bold">Orçamentos</h2>
-            <button id="btnNovoOrc" class="btn btn-primary">Novo Orçamento</button>
+            <div class="flex gap-2">
+              <button id="btnNovoOrc" class="btn btn-primary">Novo Orçamento</button>
+            </div>
           </div>
           <div id="orcList" class="mt-3 grid gap-2"></div>
         </div>
@@ -237,9 +254,13 @@ html,body{ background:#0b0f14; color:var(--ink,rgba(255,255,255,.92)); }
     </div>
   </section>
 
-  <!-- NAV INFERIOR (mobile) -->
-  <nav class="lg:hidden sticky-bottom border-t border-edge/60 bg-base/90 backdrop-blur">
-    <div class="max-w-6xl mx-auto grid grid-cols-5 text-xs">
+  <!-- FAB para Nova O.S. -->
+  <button id="fab" class="fab" title="Nova O.S.">＋</button>
+
+  <!-- NAV INFERIOR (MOBILE FIXA) -->
+  <nav class="lg:hidden sticky-bottom">
+    <div class="max-w-6xl mx-auto grid grid-cols-5 text-xs px-2"
+         style="padding-bottom: env(safe-area-inset-bottom);">
       <button data-tab="dashboard"  class="m-1 py-3 text-center tabm">🏠<div>Home</div></button>
       <button data-tab="os"         class="m-1 py-3 text-center tabm">🧾<div>O.S.</div></button>
       <button data-tab="orcamentos" class="m-1 py-3 text-center tabm">💬<div>Orç.</div></button>
@@ -248,6 +269,26 @@ html,body{ background:#0b0f14; color:var(--ink,rgba(255,255,255,.92)); }
     </div>
   </nav>
 </main>
+
+<!-- MODAL O.S. -->
+<div id="osModalWrap" class="modal-backdrop hiddenEl">
+  <div class="modal w-full">
+    <div class="modal-h flex items-center justify-between">
+      <div class="font-bold" id="osModalTitle">O.S.</div>
+      <button id="osModalClose" class="btn btn-ghost">Fechar</button>
+    </div>
+    <div class="modal-b grid gap-3" id="osModalBody">
+      <!-- conteúdo injetado via JS -->
+    </div>
+    <div class="modal-f flex items-center justify-between">
+      <button id="btnDelOS" class="btn btn-ghost">Excluir</button>
+      <div class="flex gap-2">
+        <button id="btnExportOS" class="btn btn-ghost">Exportar PDF</button>
+        <button id="btnSaveOS" class="btn btn-primary">Salvar</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
 /* ===== helpers ===== */
@@ -261,16 +302,16 @@ const hide = id => $('#'+id).classList.add('hiddenEl');
 
 /* ===== seed ===== */
 (function seed(){
-  if(!localStorage.getItem('demo_seed_v2')){
+  if(!localStorage.getItem('demo_seed_v3')){
     set('nevar_os', [
-      {id:'OS-101', cliente:'Restaurante Aurora', servico:'Câmara fria', status:'aberta', valor:3200},
-      {id:'OS-102', cliente:'Clínica Vita', servico:'VRF', status:'andamento', valor:12800},
-      {id:'OS-103', cliente:'Supermercado Max', servico:'Split', status:'andamento', valor:1800},
-      {id:'OS-104', cliente:'Hotel Blue', servico:'Preventiva', status:'concluida', valor:950}
+      {id:'OS-101', cliente:'Restaurante Aurora', servico:'Câmara fria', status:'aberta', valor:3200, obs:'', fotos:[], ass:''},
+      {id:'OS-102', cliente:'Clínica Vita', servico:'VRF', status:'andamento', valor:12800, obs:'', fotos:[], ass:''},
+      {id:'OS-103', cliente:'Supermercado Max', servico:'Split', status:'andamento', valor:1800, obs:'', fotos:[], ass:''},
+      {id:'OS-104', cliente:'Hotel Blue', servico:'Preventiva', status:'concluida', valor:950, obs:'', fotos:[], ass:''}
     ]);
     set('nevar_orc', [
-      {id:'ORC-7001', cliente:'Rest. Flor do Mar', item:'Split 24k + Instalação', status:'pendente', valor:4900},
-      {id:'ORC-7002', cliente:'TechLab', item:'VRF 20TR', status:'enviado', valor:86000}
+      {id:'ORC-7001', cliente:'Rest. Flor do Mar', item:'Split 24k + Instalação', status:'pendente', valor:4900, notas:''},
+      {id:'ORC-7002', cliente:'TechLab', item:'VRF 20TR', status:'enviado', valor:86000, notas:''}
     ]);
     set('nevar_stock', [
       {sku:'PE-001', nome:'Gás R410A', qtd:12, minimo:5},
@@ -287,7 +328,7 @@ const hide = id => $('#'+id).classList.add('hiddenEl');
       {tec:'Carlos', os:'OS-103', tarefa:'Instalar condensadora', status:'pendente'},
       {tec:'Fernanda', os:'OS-101', tarefa:'Ajuste termostato', status:'em execução'}
     ]);
-    localStorage.setItem('demo_seed_v2','1');
+    localStorage.setItem('demo_seed_v3','1');
   }
 })();
 
@@ -296,9 +337,7 @@ const hasAdmin = () => !!localStorage.getItem('nevar_admin');
 const setSession = v => localStorage.setItem('nevar_session', v?'1':'');
 const isLogged = () => !!localStorage.getItem('nevar_session');
 
-function renderAuth(){
-  if(!hasAdmin()) show('firstAccess'); else hide('firstAccess');
-}
+function renderAuth(){ if(!hasAdmin()) show('firstAccess'); else hide('firstAccess'); }
 renderAuth();
 
 $('#firstForm').addEventListener('submit', e=>{
@@ -319,13 +358,10 @@ $('#btnLogout').addEventListener('click', ()=>{ localStorage.removeItem('nevar_s
 
 /* ===== navegação ===== */
 function selectTab(name){
-  // desktop
   $$('#menu .tab').forEach(b=>b.classList.remove('bg-white/5','tab-active'));
   $$('#menu .tab').find(b=>b.dataset.tab===name)?.classList.add('bg-white/5','tab-active');
-  // mobile bottom
   $$('.tabm').forEach(b=>b.classList.remove('tab-active'));
   $$('.tabm').find(b=>b.dataset.tab===name)?.classList.add('tab-active');
-  // sections
   ['dashboard','os','orcamentos','estoque','financeiro','relatorios','cms','usuarios','tecnicos']
     .forEach(id => (id===name?show('tab-'+id):hide('tab-'+id)));
 }
@@ -338,7 +374,7 @@ document.querySelector('nav.sticky-bottom').addEventListener('click', e=>{
   selectTab(b.dataset.tab); refreshAll();
 });
 
-/* ===== render helpers (cards em vez de tabelas no mobile) ===== */
+/* ===== render ===== */
 const cardLine = (left, right) => `<div class="flex items-center justify-between gap-3"><span class="text-mute text-sm">${left}</span><span class="font-semibold">${right}</span></div>`;
 
 function renderKPIs(){
@@ -349,10 +385,9 @@ function renderKPIs(){
   const saldo = fin.reduce((a,i)=>a + (i.tipo==='receber'?i.valor:-i.valor), 0);
   $('#kFatMes').textContent = money(saldo);
 }
-
 function renderKanban(){
   const os = get('nevar_os');
-  const col = (status) => os.filter(i => status==='aberta'? i.status==='aberta': status==='and'? i.status==='andamento' : i.status==='concluida');
+  const col = (status) => os.filter(i => status==='aberta'? i.status==='aberta' : status==='and'? i.status==='andamento' : i.status==='concluida');
   const item = o => `<div class="soft p-3 rounded-xl">
     <div class="font-semibold">${o.id}</div>
     <div class="text-mute text-sm">${o.cliente}</div>
@@ -362,64 +397,55 @@ function renderKanban(){
   $('#kanbanE').innerHTML = col('and').map(item).join('');    $('#cE').textContent = col('and').length;
   $('#kanbanC').innerHTML = col('concluida').map(item).join(''); $('#cC').textContent = col('concluida').length;
 }
-
-function listify(arr, fields){
-  return arr.map(r => `<div class="list-card">
+function listify(arr, fields, onClick){
+  return arr.map(r => `<button class="list-card text-left" ${onClick? `data-id="${r.id}"` : ''}>
     ${fields.map(f => cardLine(f.label, f.fmt? f.fmt(r[f.key], r): (r[f.key]??''))).join('')}
-  </div>`).join('');
+  </button>`).join('');
 }
-function renderOS(){
-  $('#osList').innerHTML = listify(get('nevar_os'), [
-    {key:'id',label:'Código'}, {key:'cliente',label:'Cliente'},
-    {key:'servico',label:'Serviço'}, {key:'status',label:'Status'},
-    {key:'valor',label:'Valor', fmt:v=>money(v)}
-  ]);
+function renderOS(){ 
+  const os = get('nevar_os');
+  $('#osList').innerHTML = listify(os, [
+    {key:'id',label:'Código'},{key:'cliente',label:'Cliente'},{key:'servico',label:'Serviço'},
+    {key:'status',label:'Status'},{key:'valor',label:'Valor', fmt:v=>money(v)} ], true);
+  // clique abre modal
+  $$('#osList .list-card').forEach(btn => btn.addEventListener('click', ()=> openOSModal(btn.dataset.id)));
 }
-function renderOrc(){
-  $('#orcList').innerHTML = listify(get('nevar_orc'), [
-    {key:'id',label:'Código'}, {key:'cliente',label:'Cliente'},
-    {key:'item',label:'Item'}, {key:'status',label:'Status'},
-    {key:'valor',label:'Valor', fmt:v=>money(v)}
-  ]);
+function renderOrc(){ 
+  const o = get('nevar_orc');
+  $('#orcList').innerHTML = listify(o, [
+    {key:'id',label:'Código'},{key:'cliente',label:'Cliente'},{key:'item',label:'Item'},
+    {key:'status',label:'Status'},{key:'valor',label:'Valor', fmt:v=>money(v)} ]);
 }
-function renderStock(){
-  $('#stkList').innerHTML = listify(get('nevar_stock'), [
-    {key:'sku',label:'SKU'}, {key:'nome',label:'Produto'},
-    {key:'qtd',label:'Qtd.'}, {key:'minimo',label:'Mín.'}
-  ]);
-}
+function renderStock(){ $('#stkList').innerHTML = listify(get('nevar_stock'), [
+  {key:'sku',label:'SKU'},{key:'nome',label:'Produto'},{key:'qtd',label:'Qtd.'},{key:'minimo',label:'Mín.'} ]); }
 function renderFin(){
   const fin = get('nevar_fin');
   const rec = fin.filter(f=>f.tipo==='receber').reduce((a,i)=>a+i.valor,0);
   const pag = fin.filter(f=>f.tipo==='pagar').reduce((a,i)=>a+i.valor,0);
   $('#fatRec').textContent = money(rec); $('#fatPag').textContent = money(pag); $('#fatSaldo').textContent = money(rec-pag);
   $('#finList').innerHTML = listify(fin, [
-    {key:'id',label:'ID'}, {key:'tipo',label:'Tipo'},
-    {key:'desc',label:'Descrição'}, {key:'valor',label:'Valor', fmt:v=>money(v)}
-  ]);
+    {key:'id',label:'ID'},{key:'tipo',label:'Tipo'},{key:'desc',label:'Descrição'},{key:'valor',label:'Valor', fmt:v=>money(v)} ]);
 }
 function renderLeads(){
   const leads = get('nevar_leads').slice().reverse();
   $('#leadList').innerHTML = leads.length ? listify(leads, [
     {key:'data',label:'Data', fmt:v=>new Date(v).toLocaleString('pt-BR')},
-    {key:'servico',label:'Serviço'}, {key:'nome',label:'Nome'},
-    {key:'contato',label:'Contato'}, {key:'mensagem',label:'Mensagem'}
-  ]) : '<div class="text-mute">Sem leads ainda. Envie pelo site.</div>';
+    {key:'servico',label:'Serviço'},{key:'nome',label:'Nome'},{key:'contato',label:'Contato'},{key:'mensagem',label:'Mensagem'} ])
+    : '<div class="text-mute">Sem leads ainda. Envie pelo site.</div>';
 }
 function renderUsers(){ $('#usrList').innerHTML = listify(get('nevar_users'), [
-  {key:'nome',label:'Nome'}, {key:'email',label:'E-mail'}, {key:'perfil',label:'Perfil'}
-]);}
+  {key:'nome',label:'Nome'},{key:'email',label:'E-mail'},{key:'perfil',label:'Perfil'} ]); }
 function renderTec(){ $('#tecList').innerHTML = listify(get('nevar_tec'), [
-  {key:'tec',label:'Técnico'}, {key:'os',label:'O.S.'}, {key:'tarefa',label:'Tarefa'}, {key:'status',label:'Status'}
-]);}
+  {key:'tec',label:'Técnico'},{key:'os',label:'O.S.'},{key:'tarefa',label:'Tarefa'},{key:'status',label:'Status'} ]); }
 
 function refreshAll(){ renderKPIs(); renderKanban(); renderOS(); renderOrc(); renderStock(); renderFin(); renderLeads(); renderUsers(); renderTec(); drawChart(); }
 
 /* ===== ações rápidas ===== */
-const addOS = () => { const os=get('nevar_os'); const n=os.length+110; os.unshift({id:`OS-${n}`, cliente:'Novo Cliente', servico:'Split', status:'aberta', valor:1500}); set('nevar_os',os); refreshAll(); };
+const addOS = () => { const os=get('nevar_os'); const n=os.length+110; os.unshift({id:`OS-${n}`, cliente:'Novo Cliente', servico:'Split', status:'aberta', valor:1500, obs:'', fotos:[], ass:''}); set('nevar_os',os); refreshAll(); selectTab('os'); };
 $('#btnNovaOS').addEventListener('click', addOS);
 $('#btnNovaOS2').addEventListener('click', addOS);
-$('#btnNovoOrc').addEventListener('click', ()=>{ const o=get('nevar_orc'); o.unshift({id:`ORC-${7000+o.length}`, cliente:'Cliente XYZ', item:'Preventiva trimestral', status:'pendente', valor:2300}); set('nevar_orc',o); refreshAll(); });
+$('#fab').addEventListener('click', addOS);
+$('#btnNovoOrc').addEventListener('click', ()=>{ const o=get('nevar_orc'); o.unshift({id:`ORC-${7000+o.length}`, cliente:'Cliente XYZ', item:'Preventiva trimestral', status:'pendente', valor:2300, notas:''}); set('nevar_orc',o); refreshAll(); });
 $('#btnAddUser').addEventListener('click', ()=>{ const u=get('nevar_users'); u.push({nome:'Novo Usuário', email:`user${u.length+1}@nevar.com`, perfil:'Recepção'}); set('nevar_users',u); refreshAll(); });
 
 /* ===== gráfico simples responsivo ===== */
@@ -433,8 +459,165 @@ function drawChart(){
   data.forEach((v,i)=>{ const x=pad + i*(bw+gap); const bh=(h-pad*2)*(v/max); ctx.fillStyle= i===data.length-1?'#00c2ff':'rgba(255,255,255,.5)'; ctx.fillRect(x, h-pad-bh, bw, bh); });
 }
 
+/* ===== MODAL O.S. ===== */
+let currentOSId = null, sigDrawing=false, sigLast=null;
+function openOSModal(id){
+  currentOSId = id;
+  const os = get('nevar_os').find(x=>x.id===id);
+  $('#osModalTitle').textContent = `O.S. ${os.id}`;
+  $('#osModalBody').innerHTML = `
+    <div class="grid gap-3">
+      <div class="grid grid-cols-2 gap-2">
+        <div>
+          <div class="text-mute text-xs mb-1">Cliente</div>
+          <input id="osCli" class="soft w-full px-3 py-3" value="${os.cliente}">
+        </div>
+        <div>
+          <div class="text-mute text-xs mb-1">Serviço</div>
+          <input id="osSrv" class="soft w-full px-3 py-3" value="${os.servico}">
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-2">
+        <div>
+          <div class="text-mute text-xs mb-1">Status</div>
+          <select id="osSta" class="soft w-full px-3 py-3">
+            ${['aberta','andamento','concluida'].map(s=>`<option ${os.status===s?'selected':''} value="${s}">${s}</option>`).join('')}
+          </select>
+        </div>
+        <div>
+          <div class="text-mute text-xs mb-1">Valor</div>
+          <input id="osVal" type="number" class="soft w-full px-3 py-3" value="${os.valor}">
+        </div>
+      </div>
+      <div>
+        <div class="text-mute text-xs mb-1">Observações</div>
+        <textarea id="osObs" class="soft w-full px-3 py-3" rows="3" placeholder="Detalhes da visita, peça trocada, etc.">${os.obs||''}</textarea>
+      </div>
+
+      <div class="grid gap-2">
+        <div class="flex items-center justify-between">
+          <div class="font-semibold">Fotos</div>
+          <label class="btn btn-ghost cursor-pointer">
+            Adicionar <input id="osFotoUp" type="file" accept="image/*" class="hidden" multiple>
+          </label>
+        </div>
+        <div id="osFotos" class="grid grid-cols-4 gap-2">
+          ${(os.fotos||[]).map((src,i)=>`<div class="relative">
+              <img src="${src}" class="w-full h-20 object-cover rounded-md border border-white/10">
+              <button data-i="${i}" class="delImg absolute -top-2 -right-2 bg-danger text-white w-6 h-6 rounded-full">×</button>
+            </div>`).join('')}
+        </div>
+      </div>
+
+      <div>
+        <div class="flex items-center justify-between">
+          <div class="font-semibold">Assinatura do Cliente</div>
+          <button id="sigClear" class="btn btn-ghost">Limpar</button>
+        </div>
+        <canvas id="sig" class="sig-pad w-full h-40"></canvas>
+        ${os.ass? `<img id="sigPrev" src="${os.ass}" class="mt-2 max-h-24 rounded-md border border-white/10">` : `<img id="sigPrev" class="mt-2 hidden">`}
+      </div>
+    </div>
+  `;
+  show('osModalWrap');
+
+  // upload de fotos
+  $('#osFotoUp').addEventListener('change', async (e)=>{
+    const files = [...e.target.files].slice(0,6);
+    const urls = [];
+    for(const f of files){
+      const b64 = await fileToDataUrl(f);
+      urls.push(b64);
+    }
+    const all = (os.fotos||[]).concat(urls).slice(0,12);
+    os.fotos = all; saveCurrentOS(os);
+    openOSModal(id); // re-render
+  });
+  $$('#osFotos .delImg').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      os.fotos.splice(+btn.dataset.i,1); saveCurrentOS(os); openOSModal(id);
+    });
+  });
+
+  // assinatura
+  const cvs = $('#sig'), ctx = cvs.getContext('2d');
+  resizeCanvasToDisplaySize(cvs);
+  if(os.ass){ // desenha por cima se quiser continuar
+    const img = new Image(); img.onload=()=>ctx.drawImage(img,0,0,cvs.width,cvs.height); img.src=os.ass;
+  }
+  cvs.addEventListener('pointerdown', e=>{ sigDrawing=true; sigLast=pt(cvs,e); });
+  cvs.addEventListener('pointermove', e=>{
+    if(!sigDrawing) return; const p=pt(cvs,e); ctx.lineCap='round'; ctx.strokeStyle='#00c2ff'; ctx.lineWidth=2.2;
+    ctx.beginPath(); ctx.moveTo(sigLast.x,sigLast.y); ctx.lineTo(p.x,p.y); ctx.stroke(); sigLast=p;
+  });
+  ['pointerup','pointerleave','pointercancel'].forEach(ev=>cvs.addEventListener(ev, ()=> sigDrawing=false));
+  $('#sigClear').addEventListener('click', ()=>{ ctx.clearRect(0,0,cvs.width,cvs.height); $('#sigPrev').classList.add('hidden') });
+
+  // salvar/fechar/excluir/exportar
+  $('#btnSaveOS').onclick = ()=>{
+    os.cliente = $('#osCli').value.trim();
+    os.servico = $('#osSrv').value.trim();
+    os.status  = $('#osSta').value;
+    os.valor   = parseFloat($('#osVal').value || '0');
+    os.obs     = $('#osObs').value.trim();
+    try { os.ass = cvs.toDataURL('image/png'); $('#sigPrev').src=os.ass; $('#sigPrev').classList.remove('hidden'); } catch(e){}
+    saveCurrentOS(os); hide('osModalWrap'); refreshAll();
+  };
+  $('#osModalClose').onclick = ()=> hide('osModalWrap');
+  $('#btnDelOS').onclick = ()=>{ if(confirm('Excluir esta O.S.?')){ const arr=get('nevar_os').filter(x=>x.id!==id); set('nevar_os',arr); hide('osModalWrap'); refreshAll(); } };
+  $('#btnExportOS').onclick = ()=> exportOSPdf(os);
+}
+
+function saveCurrentOS(os){
+  const arr = get('nevar_os').map(x=> x.id===os.id ? os : x);
+  set('nevar_os', arr);
+}
+
+function fileToDataUrl(file){
+  return new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=rej; r.readAsDataURL(file); });
+}
+function pt(c,e){ const r=c.getBoundingClientRect(); return {x: e.clientX - r.left, y: e.clientY - r.top}; }
+function resizeCanvasToDisplaySize(canvas){
+  const {width,height} = canvas.getBoundingClientRect();
+  const ratio = window.devicePixelRatio || 1;
+  canvas.width = Math.round(width * ratio);
+  canvas.height= Math.round(height * ratio);
+  const ctx = canvas.getContext('2d'); ctx.scale(ratio, ratio);
+}
+
+/* ===== Exportar PDF (via print) ===== */
+function exportOSPdf(os){
+  const win = window.open('', '_blank');
+  const fotos = (os.fotos||[]).slice(0,4).map(src=>`<img src="${src}" style="width:23%;height:100px;object-fit:cover;border-radius:8px;border:1px solid #ddd;margin-right:1%;">`).join('');
+  const ass = os.ass? `<img src="${os.ass}" style="max-height:80px;border:1px solid #ddd;border-radius:6px">` : '<em>Sem assinatura</em>';
+  win.document.write(`
+  <html>
+  <head><meta charset="utf-8"><title>${os.id} - Nevar</title>
+  <style>
+    body{ font-family:Inter,Arial,sans-serif; padding:24px; color:#111 }
+    .k{ color:#555; width:130px; display:inline-block } .b{ font-weight:700 }
+    .box{ border:1px solid #ddd; border-radius:12px; padding:12px; margin-top:10px }
+  </style></head>
+  <body>
+    <h2>Nevar — Ordem de Serviço</h2>
+    <div class="box"><span class="k">Código:</span><span class="b">${os.id}</span></div>
+    <div class="box"><span class="k">Cliente:</span>${os.cliente}</div>
+    <div class="box"><span class="k">Serviço:</span>${os.servico}</div>
+    <div class="box"><span class="k">Status:</span>${os.status}</div>
+    <div class="box"><span class="k">Valor:</span>${money(os.valor)}</div>
+    <div class="box"><div class="k">Observações:</div><div>${(os.obs||'').replace(/\\n/g,'<br>')}</div></div>
+    <div class="box"><div style="margin-bottom:8px">Fotos:</div>${fotos || '<em>Sem fotos</em>'}</div>
+    <div class="box"><div style="margin-bottom:8px">Assinatura:</div>${ass}</div>
+    <script>window.print(); setTimeout(()=>window.close(), 500);<\/script>
+  </body></html>`);
+  win.document.close();
+}
+
 /* ===== boot ===== */
-if(localStorage.getItem('nevar_session')){ hide('authSection'); show('app'); selectTab('dashboard'); refreshAll(); }
+function renderAllFirst(){
+  selectTab('dashboard'); refreshAll();
+}
+if(isLogged()){ hide('authSection'); show('app'); renderAllFirst(); }
 </script>
 </body>
 </html>
