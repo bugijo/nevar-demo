@@ -3,121 +3,210 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Nevar — Refrigeração Comercial e Industrial</title>
-  <meta name="description" content="Instalação, manutenção e refrigeração comercial. Orçamento rápido e atendimento com garantia." />
+  <title>Nevar — Refrigeração Premium</title>
+  <meta name="description" content="Soluções premium em refrigeração comercial e industrial. Instalação, manutenção e câmaras frias com atendimento 24h." />
+  <!-- Tailwind via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: { 50:'#e8f7ff', 500:'#00c2ff', 600:'#00a9e0', 900:'#08131a' }
+          },
+          boxShadow: {
+            glow: '0 10px 40px rgba(0, 194, 255, .25)'
+          },
+          backgroundImage: {
+            'grid': 'radial-gradient(circle at 1px 1px, rgba(255,255,255,.08) 1px, transparent 0)',
+          }
+        }
+      }
+    }
+  </script>
   <style>
-    .card { box-shadow: 0 1px 0 rgba(0,0,0,.04); }
+    .glass { background: rgba(255,255,255,.06); backdrop-filter: blur(10px); }
+    .btn { @apply inline-flex items-center justify-center px-5 py-3 rounded-xl transition shadow-md hover:shadow-glow; }
+    .btn-primary { @apply bg-brand-500 text-white hover:bg-brand-600; }
+    .btn-ghost { @apply border border-white/15 text-white hover:bg-white/10; }
+    .card { @apply rounded-2xl border border-white/10 bg-white/5; }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-800">
-  <!-- Barra Superior -->
-  <header class="bg-white border-b">
+<body class="bg-[#0a0f14] text-white">
+  <!-- Navbar -->
+  <header class="sticky top-0 z-40 border-b border-white/5 bg-[#0a0f14]/70 backdrop-blur">
     <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-2xl bg-slate-900 text-white grid place-items-center font-bold">NV</div>
+        <div class="w-9 h-9 rounded-xl bg-brand-500 grid place-items-center font-bold">NV</div>
         <div class="font-semibold">Nevar</div>
       </div>
-      <nav class="hidden sm:flex gap-2">
-        <a href="#servicos" class="px-3 py-2 rounded-xl hover:bg-slate-100">Serviços</a>
-        <a href="#sobre"    class="px-3 py-2 rounded-xl hover:bg-slate-100">Sobre</a>
-        <a href="#contato"  class="px-3 py-2 rounded-xl hover:bg-slate-100">Contato</a>
+      <nav class="hidden md:flex items-center gap-2">
+        <a href="#servicos" class="px-3 py-2 rounded-xl hover:bg-white/5">Serviços</a>
+        <a href="#diferenciais" class="px-3 py-2 rounded-xl hover:bg-white/5">Diferenciais</a>
+        <a href="#cases" class="px-3 py-2 rounded-xl hover:bg-white/5">Cases</a>
+        <a href="#contato" class="px-3 py-2 rounded-xl hover:bg-white/5">Contato</a>
       </nav>
-      <div>
-        <a href="/" class="px-3 py-2 rounded-xl border" title="Acessar o sistema">Sistema</a>
+      <div class="flex items-center gap-2">
+        <a href="/"
+           class="px-3 py-2 rounded-xl border border-white/10 hover:bg-white/5"
+           title="Acessar o sistema">Sistema</a>
       </div>
     </div>
   </header>
 
-  <!-- Hero -->
-  <section class="bg-gradient-to-b from-white to-slate-50 border-b">
-    <div class="max-w-6xl mx-auto px-4 py-12 text-center">
-      <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs">NEVAR</span>
-      <h1 class="text-3xl md:text-4xl font-bold mt-3">Clima perfeito para o seu negócio</h1>
-      <p class="text-slate-600 mt-3 max-w-2xl mx-auto">
-        Instalação, manutenção e refrigeração comercial com atendimento rápido, peças originais e garantia.
+  <!-- HERO -->
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(0,194,255,.18),transparent_60%)]"></div>
+    <div class="absolute inset-0 opacity-20"
+         style="background-image:url('https://images.unsplash.com/photo-1521123782928-6623b4b3b6b2?q=80&w=1600&auto=format&fit=crop'); background-size:cover; background-position:center;">
+    </div>
+    <div class="relative max-w-6xl mx-auto px-4 py-16 md:py-24 text-center">
+      <span class="inline-flex px-3 py-1 rounded-full border border-white/15 text-xs tracking-widest">NEVAR</span>
+      <h1 class="text-4xl md:text-6xl font-extrabold mt-4 leading-tight">
+        Refrigeração <span class="text-brand-500">Premium</span> para quem exige o melhor
+      </h1>
+      <p class="text-white/80 mt-4 max-w-2xl mx-auto">
+        Instalação, manutenção e câmaras frias com <b>atendimento 24h</b>, peças originais e garantia estendida.
+        Tecnologia de ponta para acelerar seu negócio.
       </p>
-      <div class="mt-6 flex justify-center gap-2">
-        <a href="#contato" class="px-5 py-3 rounded-xl bg-slate-900 text-white">Solicitar Orçamento</a>
-        <a href="#servicos" class="px-5 py-3 rounded-xl border bg-white">Ver Serviços</a>
+      <div class="mt-8 flex justify-center gap-3">
+        <a href="#contato" class="btn btn-primary">Solicitar Orçamento</a>
+        <a href="#servicos" class="btn btn-ghost">Ver Serviços</a>
+      </div>
+
+      <!-- Stats -->
+      <div class="mt-12 grid sm:grid-cols-3 gap-4">
+        <div class="card p-6 text-center">
+          <div class="text-3xl font-extrabold counter" data-target="1200">0</div>
+          <div class="text-white/60 text-sm mt-1">Projetos concluídos</div>
+        </div>
+        <div class="card p-6 text-center">
+          <div class="text-3xl font-extrabold counter" data-target="99">0</div>
+          <div class="text-white/60 text-sm mt-1">SLA dentro do prazo (%)</div>
+        </div>
+        <div class="card p-6 text-center">
+          <div class="text-3xl font-extrabold counter" data-target="24">0</div>
+          <div class="text-white/60 text-sm mt-1">Suporte 24h</div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Seção de Serviços -->
-  <section id="servicos" class="max-w-6xl mx-auto px-4 py-10">
-    <h2 class="text-2xl font-semibold mb-4">Serviços</h2>
+  <!-- SERVIÇOS -->
+  <section id="servicos" class="max-w-6xl mx-auto px-4 py-16">
+    <h2 class="text-2xl md:text-3xl font-bold mb-6">Serviços</h2>
     <div class="grid md:grid-cols-3 gap-4">
-      <div class="bg-white rounded-2xl p-5 border card">
-        <div class="font-semibold">Instalação de Ar‑Condicionado</div>
-        <p class="text-sm text-slate-600 mt-1">Split, VRF e projetos sob medida para residências e empresas.</p>
+      <div class="card p-6">
+        <div class="text-lg font-semibold">Instalação de Ar-Condicionado</div>
+        <p class="text-white/70 mt-2">Split, VRF e projetos sob medida com startup certificada.</p>
       </div>
-      <div class="bg-white rounded-2xl p-5 border card">
-        <div class="font-semibold">Câmaras Frias</div>
-        <p class="text-sm text-slate-600 mt-1">Projeto, montagem, retrofit, isolamento e portas.</p>
+      <div class="card p-6">
+        <div class="text-lg font-semibold">Câmaras Frias</div>
+        <p class="text-white/70 mt-2">Projeto, montagem, retrofit, isolamento e portas.</p>
       </div>
-      <div class="bg-white rounded-2xl p-5 border card">
-        <div class="font-semibold">Manutenção Preventiva</div>
-        <p class="text-sm text-slate-600 mt-1">Planos mensais com checklists e relatórios para reduzir paradas.</p>
+      <div class="card p-6">
+        <div class="text-lg font-semibold">Manutenção Preventiva</div>
+        <p class="text-white/70 mt-2">Planos mensais com checklists e relatórios para reduzir paradas.</p>
       </div>
     </div>
   </section>
 
-  <!-- Seção Sobre -->
-  <section id="sobre" class="max-w-6xl mx-auto px-4 py-10">
-    <h2 class="text-2xl font-semibold mb-4">Sobre a Nevar</h2>
-    <div class="bg-white rounded-2xl p-6 border card">
-      <p class="text-slate-700">
-        Há mais de 10 anos somos especialistas em refrigeração comercial e residencial.
-        Nossos técnicos são certificados, utilizamos peças originais e oferecemos garantia estendida em todos os serviços.
-      </p>
-      <ul class="mt-4 grid md:grid-cols-3 gap-3 text-center">
-        <li class="p-4 rounded-xl border">Equipe certificada</li>
-        <li class="p-4 rounded-xl border">Peças originais</li>
-        <li class="p-4 rounded-xl border">Garantia estendida</li>
-      </ul>
+  <!-- DIFERENCIAIS -->
+  <section id="diferenciais" class="max-w-6xl mx-auto px-4 pb-16">
+    <h2 class="text-2xl md:text-3xl font-bold mb-6">Diferenciais</h2>
+    <div class="grid md:grid-cols-4 gap-4">
+      <div class="card p-5 text-center">Equipe certificada</div>
+      <div class="card p-5 text-center">Peças originais</div>
+      <div class="card p-5 text-center">Garantia estendida</div>
+      <div class="card p-5 text-center">Atendimento 24h</div>
     </div>
   </section>
 
-  <!-- Seção Contato -->
-  <section id="contato" class="max-w-6xl mx-auto px-4 py-10">
-    <h2 class="text-2xl font-semibold mb-4">Solicitar Orçamento</h2>
-    <div class="bg-white rounded-2xl p-6 border card max-w-2xl">
-      <div id="feedback" class="hidden mb-3 text-green-700 text-sm">
+  <!-- CASES / DEPOIMENTOS -->
+  <section id="cases" class="max-w-6xl mx-auto px-4 pb-16">
+    <h2 class="text-2xl md:text-3xl font-bold mb-6">O que falam da Nevar</h2>
+    <div class="grid md:grid-cols-3 gap-4">
+      <div class="card p-6">
+        <p class="text-white/80">“Diminuímos 40% de paradas com o plano preventivo da Nevar.”</p>
+        <div class="text-white/60 text-sm mt-3">— Restaurante Aurora</div>
+      </div>
+      <div class="card p-6">
+        <p class="text-white/80">“Execução impecável do nosso VRF em tempo recorde.”</p>
+        <div class="text-white/60 text-sm mt-3">— Clínica Vita</div>
+      </div>
+      <div class="card p-6">
+        <p class="text-white/80">“Suporte 24h que realmente funciona. Viraram nossos parceiros.”</p>
+        <div class="text-white/60 text-sm mt-3">— Supermercados Max</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTATO -->
+  <section id="contato" class="max-w-6xl mx-auto px-4 pb-20">
+    <div class="card p-6 md:p-8 max-w-2xl">
+      <h2 class="text-2xl font-bold mb-4">Solicitar Orçamento</h2>
+      <div id="ok" class="hidden mb-3 text-emerald-400 text-sm">
         Recebemos sua solicitação! Em breve entraremos em contato.
       </div>
       <form id="leadForm" class="space-y-3">
-        <input id="nome" class="w-full border rounded-xl px-3 py-2" placeholder="Seu nome" required />
-        <input id="contato" class="w-full border rounded-xl px-3 py-2" placeholder="Telefone ou e‑mail" required />
-        <textarea id="mensagem" class="w-full border rounded-xl px-3 py-2" rows="4" placeholder="Descreva o que precisa" required></textarea>
-        <button class="px-5 py-3 rounded-xl bg-slate-900 text-white" type="submit">Enviar</button>
-        <p class="text-xs text-slate-500">
-          Ao enviar, você concorda em ser contatado pela Nevar para este orçamento.
-        </p>
+        <input id="nome" class="w-full rounded-xl px-3 py-3 bg-white/5 border border-white/10" placeholder="Seu nome" required>
+        <input id="contato" class="w-full rounded-xl px-3 py-3 bg-white/5 border border-white/10" placeholder="Telefone ou e-mail" required>
+        <textarea id="mensagem" rows="4" class="w-full rounded-xl px-3 py-3 bg-white/5 border border-white/10" placeholder="Descreva o que precisa" required></textarea>
+        <button class="btn btn-primary w-full md:w-auto" type="submit">Enviar</button>
+        <p class="text-white/50 text-xs mt-1">Ao enviar, você concorda em ser contatado pela Nevar para este orçamento.</p>
       </form>
     </div>
   </section>
 
+  <!-- WhatsApp flutuante -->
+  <a href="https://wa.me/5511999999999" target="_blank" rel="noopener"
+     class="fixed bottom-5 right-5 btn btn-primary rounded-full shadow-glow">
+    WhatsApp
+  </a>
+
   <!-- Rodapé -->
-  <footer class="py-10 text-center text-xs text-slate-500">
-    © <span id="year"></span> Nevar · Refrigeração comercial e residencial · WhatsApp (11) 99999‑9999
+  <footer class="border-t border-white/10">
+    <div class="max-w-6xl mx-auto px-4 py-8 text-center text-white/60 text-sm">
+      © <span id="year"></span> Nevar • São Paulo • contato@nevar.com.br
+    </div>
   </footer>
 
   <script>
+    // Ano no rodapé
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Contadores animados
+    const counters = document.querySelectorAll('.counter');
+    const animate = el => {
+      const target = +el.dataset.target;
+      let current = 0;
+      const step = Math.max(1, Math.round(target / 60));
+      const tick = () => {
+        current += step;
+        if (current >= target) { el.textContent = target; return; }
+        el.textContent = current;
+        requestAnimationFrame(tick);
+      };
+      tick();
+    };
+    const obs = new IntersectionObserver((entries)=>{
+      entries.forEach(e => { if (e.isIntersecting) { animate(e.target); obs.unobserve(e.target); } });
+    }, { threshold: .6 });
+    counters.forEach(c => obs.observe(c));
+
+    // Lead (demo): salva no localStorage
     const form = document.getElementById('leadForm');
     form.addEventListener('submit', function(e){
       e.preventDefault();
       const nome = document.getElementById('nome').value.trim();
       const contato = document.getElementById('contato').value.trim();
       const mensagem = document.getElementById('mensagem').value.trim();
-      const leadsRaw = localStorage.getItem('nevar_leads') || '[]';
-      const leads = JSON.parse(leadsRaw);
+      const leads = JSON.parse(localStorage.getItem('nevar_leads') || '[]');
       leads.push({ nome, contato, mensagem, data: new Date().toISOString() });
       localStorage.setItem('nevar_leads', JSON.stringify(leads));
-      document.getElementById('feedback').classList.remove('hidden');
+      document.getElementById('ok').classList.remove('hidden');
       form.reset();
-      setTimeout(()=>document.getElementById('feedback').classList.add('hidden'), 4000);
+      setTimeout(()=>document.getElementById('ok').classList.add('hidden'), 3500);
     });
   </script>
 </body>
