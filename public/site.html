@@ -3,73 +3,100 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Nevar — Refrigeração Premium</title>
-  <meta name="description" content="Soluções premium em refrigeração comercial e industrial. Instalação, manutenção e câmaras frias com atendimento 24h e garantia." />
-  <!-- Tailwind via CDN -->
+  <title>Nevar — Soluções Premium em Refrigeração</title>
+  <meta name="description" content="Refrigeração comercial e industrial: instalação, manutenção, câmaras frias e venda de equipamentos. Atendimento 24h, garantia e peças originais." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          colors: { brand: { 500:'#00c2ff', 600:'#00a9e0' }, base:'#0b0f14' },
-          boxShadow:{ glow:'0 12px 50px rgba(0,194,255,.28)' },
-          backgroundImage:{
-            hero:'radial-gradient(ellipse at top, rgba(0,194,255,.22), transparent 60%)',
-            grid:'radial-gradient(circle at 1px 1px, rgba(255,255,255,.08) 1px, transparent 0)',
+          fontFamily: { sans: ['Roboto','ui-sans-serif','system-ui'] },
+          colors: {
+            brand: { 50:'#e7f7ff', 100:'#c2ecff', 500:'#00b6ff', 600:'#00a0e0', 700:'#0089bf' },
+            ink: '#0b1116',
+            metal: '#dbe3ea'
+          },
+          boxShadow: { glow: '0 12px 50px rgba(0,182,255,.28)' },
+          backgroundImage: {
+            wave: 'radial-gradient(ellipse at top, rgba(0,182,255,.20), transparent 60%)',
+            grid: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,.10) 1px, transparent 0)'
           }
         }
       }
     }
   </script>
   <style>
-    .glass{ background: rgba(255,255,255,.06); backdrop-filter: blur(10px); }
-    .card{ border: 1px solid rgba(255,255,255,.08); border-radius: 18px; background: rgba(255,255,255,.03); }
-    .btn{ display:inline-flex; align-items:center; justify-content:center; padding:.85rem 1.15rem; border-radius:14px; font-weight:600; transition:.2s; }
-    .btn-primary{ background:#00c2ff; color:#001018; }
-    .btn-primary:hover{ background:#00a9e0; box-shadow: var(--glow,0 0 0 transparent), 0 12px 40px rgba(0,194,255,.35); }
-    .btn-ghost{ border:1px solid rgba(255,255,255,.15); color:white; }
-    .btn-ghost:hover{ background: rgba(255,255,255,.08); }
-    .badge{ padding:.35rem .7rem; border:1px solid rgba(255,255,255,.15); border-radius:999px; font-size:.7rem; letter-spacing:.12em; }
-    html,body{ background:#0b0f14; color:#e9f1f6; }
+    :root{ --ink:#0b1116; --panel:rgba(255,255,255,.06) }
+    html,body{ background:#0d1319; color:#eaf2f8 }
+    .glass{ background:var(--panel); backdrop-filter: blur(10px) }
+    .card{ border:1px solid rgba(255,255,255,.10); border-radius:18px; background:rgba(255,255,255,.04) }
+    .btn{ display:inline-flex; align-items:center; justify-content:center; padding:.9rem 1.15rem; border-radius:14px; font-weight:700; transition:.2s }
+    .btn-primary{ background:#00b6ff; color:#041018 }
+    .btn-primary:hover{ background:#00a0e0; box-shadow:var(--glow,0 0 0 transparent), 0 12px 40px rgba(0,182,255,.35) }
+    .btn-ghost{ border:1px solid rgba(255,255,255,.15); color:white }
+    .btn-ghost:hover{ background:rgba(255,255,255,.08) }
+    .badge{ padding:.35rem .7rem; border:1px solid rgba(255,255,255,.15); border-radius:999px; font-size:.72rem; letter-spacing:.12em }
+    .reveal{ opacity:0; transform: translateY(12px); transition:.6s }
+    .reveal.show{ opacity:1; transform:none }
   </style>
+
+  <!-- JSON-LD básico (melhora SEO) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Nevar Refrigeração",
+    "url": "https://nevar-demo.vercel.app/site.html",
+    "logo": "https://nevar-demo.vercel.app/icon.png",
+    "sameAs": ["https://instagram.com/","https://www.facebook.com/","https://www.linkedin.com/"],
+    "contactPoint": [{
+      "@type": "ContactPoint","telephone":"+55-11-9999-9999","contactType":"customer service","areaServed":"BR"
+    }]
+  }
+  </script>
 </head>
-<body>
+<body class="font-sans">
 
   <!-- NAV -->
-  <header class="sticky top-0 z-40 border-b border-white/5 bg-base/70 backdrop-blur">
-    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+  <header class="sticky top-0 z-40 border-b border-white/10 bg-[#0d1319]/70 backdrop-blur">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-xl bg-brand-500 grid place-items-center font-bold text-base">NV</div>
-        <div class="font-semibold">Nevar</div>
+        <div class="w-9 h-9 rounded-xl bg-brand-500 grid place-items-center font-extrabold text-ink">NV</div>
+        <div class="font-bold tracking-wide">Nevar</div>
       </div>
-      <nav class="hidden md:flex items-center gap-1 text-sm">
+      <nav class="hidden md:flex items-center gap-2 text-sm">
         <a href="#servicos" class="px-3 py-2 rounded-xl hover:bg-white/5">Serviços</a>
-        <a href="#diferenciais" class="px-3 py-2 rounded-xl hover:bg-white/5">Diferenciais</a>
-        <a href="#cases" class="px-3 py-2 rounded-xl hover:bg-white/5">Cases</a>
-        <a href="#faq" class="px-3 py-2 rounded-xl hover:bg-white/5">FAQ</a>
+        <a href="#sobre" class="px-3 py-2 rounded-xl hover:bg-white/5">Sobre</a>
+        <a href="#produtos" class="px-3 py-2 rounded-xl hover:bg-white/5">Produtos</a>
+        <a href="#portfolio" class="px-3 py-2 rounded-xl hover:bg-white/5">Portfólio</a>
+        <a href="#blog" class="px-3 py-2 rounded-xl hover:bg-white/5">Blog</a>
+        <a href="#contato" class="px-3 py-2 rounded-xl hover:bg-white/5">Contato</a>
       </nav>
       <div class="flex items-center gap-2">
         <a href="/" class="px-3 py-2 rounded-xl border border-white/10 hover:bg-white/5">Sistema</a>
         <a href="https://wa.me/5511999999999?text=Olá%20Nevar!%20Quero%20um%20orçamento%20de%20refrigeração."
-           class="btn btn-primary hidden sm:inline-flex">Falar no WhatsApp</a>
+           class="hidden sm:inline-flex btn btn-primary">WhatsApp</a>
       </div>
     </div>
   </header>
 
   <!-- HERO -->
   <section class="relative overflow-hidden">
-    <div class="absolute inset-0 bg-hero"></div>
+    <div class="absolute inset-0 bg-wave"></div>
     <div class="absolute inset-0 opacity-20"
-      style="background:url('https://images.unsplash.com/photo-1517694702802-7d3cd482ebf1?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat"></div>
+         style="background:url('https://images.unsplash.com/photo-1542367597-8849ebbbe7c2?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat"></div>
 
-    <div class="relative max-w-6xl mx-auto px-4 py-16 md:py-24 text-center">
+    <div class="relative max-w-7xl mx-auto px-4 py-16 md:py-24 text-center">
       <span class="badge">NEVAR • TECNOLOGIA EM FRIO</span>
-      <h1 class="text-4xl md:text-6xl font-extrabold mt-4 leading-tight">
-        Refrigeração <span class="text-brand-500">Premium</span> para quem exige o melhor
+      <h1 class="text-4xl md:text-6xl font-black mt-4 leading-tight">
+        Sua empresa no <span class="text-brand-500">clima certo</span>
       </h1>
       <p class="text-white/80 mt-4 max-w-3xl mx-auto">
-        Instalação, manutenção e câmaras frias com <b>atendimento 24h</b>, peças originais e garantia estendida.
-        Operamos com padrões de qualidade e rastreabilidade digital.
+        Soluções completas em refrigeração comercial e industrial: instalação, manutenção e câmaras frias
+        com <b>atendimento 24h</b>, peças originais e garantia estendida.
       </p>
       <div class="mt-8 flex justify-center gap-3">
         <a href="#contato" class="btn btn-primary">Solicitar Orçamento</a>
@@ -78,150 +105,220 @@
 
       <!-- KPIs -->
       <div class="mt-12 grid sm:grid-cols-3 gap-4">
-        <div class="card p-6 text-center">
+        <div class="card p-6 text-center reveal">
           <div class="text-3xl font-extrabold counter" data-target="1200">0</div>
-          <div class="text-white/60 text-sm mt-1">Projetos concluídos</div>
+          <div class="text-white/70 text-sm mt-1">Projetos concluídos</div>
         </div>
-        <div class="card p-6 text-center">
+        <div class="card p-6 text-center reveal">
           <div class="text-3xl font-extrabold counter" data-target="99">0</div>
-          <div class="text-white/60 text-sm mt-1">SLA dentro do prazo (%)</div>
+          <div class="text-white/70 text-sm mt-1">SLA dentro do prazo (%)</div>
         </div>
-        <div class="card p-6 text-center">
+        <div class="card p-6 text-center reveal">
           <div class="text-3xl font-extrabold counter" data-target="24">0</div>
-          <div class="text-white/60 text-sm mt-1">Suporte 24h</div>
+          <div class="text-white/70 text-sm mt-1">Suporte 24h</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- TRUST BAR -->
-  <section class="max-w-6xl mx-auto px-4 py-10 opacity-80">
+  <!-- TRUST/SELOS -->
+  <section class="max-w-7xl mx-auto px-4 py-10 opacity-90">
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-      <div class="card p-4 text-center text-white/60">ISO 9001</div>
-      <div class="card p-4 text-center text-white/60">Técnicos Certificados</div>
-      <div class="card p-4 text-center text-white/60">Peças Originais</div>
-      <div class="card p-4 text-center text-white/60">Garantia Estendida</div>
+      <div class="card p-4 text-center text-white/70 reveal">ISO 9001</div>
+      <div class="card p-4 text-center text-white/70 reveal">Técnicos Certificados</div>
+      <div class="card p-4 text-center text-white/70 reveal">Peças Originais</div>
+      <div class="card p-4 text-center text-white/70 reveal">Garantia Estendida</div>
     </div>
   </section>
 
   <!-- SERVIÇOS -->
-  <section id="servicos" class="max-w-6xl mx-auto px-4 py-16">
-    <h2 class="text-2xl md:text-3xl font-bold mb-6">Serviços</h2>
-    <div class="grid md:grid-cols-3 gap-4">
-      <div class="card p-6">
+  <section id="servicos" class="max-w-7xl mx-auto px-4 py-16">
+    <h2 class="text-3xl font-bold mb-6">Serviços</h2>
+    <div class="grid md:grid-cols-3 gap-5">
+      <div class="card p-6 reveal">
         <div class="text-lg font-semibold">Instalação de Ar-Condicionado</div>
         <p class="text-white/70 mt-2">Split, VRF e projetos sob medida com startup certificada.</p>
       </div>
-      <div class="card p-6">
+      <div class="card p-6 reveal">
         <div class="text-lg font-semibold">Câmaras Frias</div>
         <p class="text-white/70 mt-2">Projeto, montagem, retrofit, isolamento e portas.</p>
       </div>
-      <div class="card p-6">
-        <div class="text-lg font-semibold">Manutenção Preventiva</div>
-        <p class="text-white/70 mt-2">Planos mensais com checklists e relatórios para reduzir paradas.</p>
+      <div class="card p-6 reveal">
+        <div class="text-lg font-semibold">Manutenção Preventiva/Corretiva</div>
+        <p class="text-white/70 mt-2">Planos mensais, checklists e relatórios para reduzir paradas.</p>
       </div>
     </div>
   </section>
 
-  <!-- DIFERENCIAIS -->
-  <section id="diferenciais" class="max-w-6xl mx-auto px-4 pb-16">
-    <h2 class="text-2xl md:text-3xl font-bold mb-6">Diferenciais</h2>
-    <div class="grid md:grid-cols-4 gap-4">
-      <div class="card p-5 text-center">Equipe certificada</div>
-      <div class="card p-5 text-center">Peças originais</div>
-      <div class="card p-5 text-center">Garantia estendida</div>
-      <div class="card p-5 text-center">Atendimento 24h</div>
+  <!-- SOBRE -->
+  <section id="sobre" class="max-w-7xl mx-auto px-4 pb-16">
+    <h2 class="text-3xl font-bold mb-6">Sobre a Nevar</h2>
+    <div class="grid md:grid-cols-2 gap-6 items-center">
+      <div class="card p-6 reveal">
+        <p class="text-white/85">
+          Há mais de 10 anos somos especialistas em refrigeração comercial e industrial.
+          Nossa missão é manter seu negócio no clima ideal com tecnologia, eficiência e segurança.
+        </p>
+        <ul class="grid grid-cols-2 gap-3 mt-4 text-sm">
+          <li class="card p-3 text-center">Missão • Qualidade</li>
+          <li class="card p-3 text-center">Visão • Inovação</li>
+          <li class="card p-3 text-center">Valores • Ética</li>
+          <li class="card p-3 text-center">Parcerias Técnicas</li>
+        </ul>
+      </div>
+      <div class="rounded-2xl overflow-hidden reveal">
+        <img alt="Equipe técnica Nevar"
+             src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?q=80&w=1600&auto=format&fit=crop">
+      </div>
     </div>
   </section>
 
-  <!-- PROCESSO 1-2-3 -->
-  <section class="max-w-6xl mx-auto px-4 pb-16">
-    <h2 class="text-2xl md:text-3xl font-bold mb-6">Como funciona</h2>
-    <div class="grid md:grid-cols-3 gap-4">
-      <div class="card p-6"><b>1. Diagnóstico</b><p class="text-white/70 mt-2">Entendemos sua necessidade e definimos o escopo.</p></div>
-      <div class="card p-6"><b>2. Execução</b><p class="text-white/70 mt-2">Equipe certificada, peças originais e prazos claros.</p></div>
-      <div class="card p-6"><b>3. Garantia & Preventiva</b><p class="text-white/70 mt-2">Relatórios, checklists e plano para reduzir paradas.</p></div>
+  <!-- PRODUTOS -->
+  <section id="produtos" class="max-w-7xl mx-auto px-4 pb-16">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-3xl font-bold">Produtos</h2>
+      <div class="flex items-center gap-2 text-sm">
+        <label class="opacity-80">Filtro:</label>
+        <select id="filtroTipo" class="bg-transparent border border-white/15 rounded-xl px-3 py-2">
+          <option value="todos">Todos</option>
+          <option value="split">Split</option>
+          <option value="vrf">VRF</option>
+          <option value="camara">Câmara Fria</option>
+        </select>
+      </div>
+    </div>
+    <div id="gridProdutos" class="grid md:grid-cols-3 gap-5">
+      <!-- itens criados via script -->
+    </div>
+    <div class="text-right mt-4">
+      <a href="#contato" class="btn btn-ghost">Solicitar cotação</a>
     </div>
   </section>
 
-  <!-- CASES / DEPOIMENTOS -->
-  <section id="cases" class="max-w-6xl mx-auto px-4 pb-16">
-    <h2 class="text-2xl md:text-3xl font-bold mb-6">O que falam da Nevar</h2>
-    <div class="grid md:grid-cols-3 gap-4">
-      <div class="card p-6">
-        <p class="text-white/85">“Diminuímos 40% de paradas com o plano preventivo da Nevar.”</p>
+  <!-- PORTFÓLIO -->
+  <section id="portfolio" class="max-w-7xl mx-auto px-4 pb-16">
+    <h2 class="text-3xl font-bold mb-6">Portfólio / Cases</h2>
+    <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <figure class="relative overflow-hidden rounded-2xl reveal">
+        <img src="https://images.unsplash.com/photo-1563453392212-326f5e854473?q=80&w=1200&auto=format&fit=crop" alt="Projeto 1" class="w-full h-56 object-cover">
+        <figcaption class="absolute bottom-0 left-0 right-0 p-3 bg-black/40 text-sm">Restaurante • Câmara fria</figcaption>
+      </figure>
+      <figure class="relative overflow-hidden rounded-2xl reveal">
+        <img src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1200&auto=format&fit=crop" alt="Projeto 2" class="w-full h-56 object-cover">
+        <figcaption class="absolute bottom-0 left-0 right-0 p-3 bg-black/40 text-sm">Clínica • VRF</figcaption>
+      </figure>
+      <figure class="relative overflow-hidden rounded-2xl reveal">
+        <img src="https://images.unsplash.com/photo-1535338454770-8be78b88306f?q=80&w=1200&auto=format&fit=crop" alt="Projeto 3" class="w-full h-56 object-cover">
+        <figcaption class="absolute bottom-0 left-0 right-0 p-3 bg-black/40 text-sm">Supermercado • Refrigeração</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- BLOG / CONTEÚDOS -->
+  <section id="blog" class="max-w-7xl mx-auto px-4 pb-16">
+    <h2 class="text-3xl font-bold mb-6">Conteúdo & Dicas</h2>
+    <div class="grid md:grid-cols-3 gap-5">
+      <article class="card p-5 reveal">
+        <h3 class="font-semibold">Como reduzir consumo de energia na refrigeração</h3>
+        <p class="text-white/70 text-sm mt-2">3 práticas simples que diminuem sua conta e aumentam a vida útil dos equipamentos.</p>
+        <a href="#contato" class="text-brand-500 mt-3 inline-block">Quero receber mais conteúdos →</a>
+      </article>
+      <article class="card p-5 reveal">
+        <h3 class="font-semibold">Preventiva: por que contratos evitam paradas</h3>
+        <p class="text-white/70 text-sm mt-2">Entenda o impacto de um plano preventivo no caixa e na operação.</p>
+        <a href="#contato" class="text-brand-500 mt-3 inline-block">Falar com especialista →</a>
+      </article>
+      <article class="card p-5 reveal">
+        <h3 class="font-semibold">Checklist antes de instalar seu Split/VRF</h3>
+        <p class="text-white/70 text-sm mt-2">Veja o que considerar no projeto para não ter dor de cabeça depois.</p>
+        <a href="#contato" class="text-brand-500 mt-3 inline-block">Solicitar avaliação técnica →</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- DEPOIMENTOS / PARCEIROS -->
+  <section class="max-w-7xl mx-auto px-4 pb-16">
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="card p-6 reveal">
+        <h3 class="text-2xl font-bold mb-4">O que nossos clientes dizem</h3>
+        <blockquote class="text-white/85">“Diminuímos 40% de paradas com o plano preventivo da Nevar.”</blockquote>
         <div class="text-white/60 text-sm mt-3">— Restaurante Aurora</div>
-      </div>
-      <div class="card p-6">
-        <p class="text-white/85">“Execução impecável do nosso VRF em tempo recorde.”</p>
+        <hr class="my-4 border-white/10">
+        <blockquote class="text-white/85">“Execução impecável do nosso VRF em tempo recorde.”</blockquote>
         <div class="text-white/60 text-sm mt-3">— Clínica Vita</div>
       </div>
-      <div class="card p-6">
-        <p class="text-white/85">“Suporte 24h que realmente funciona. Viraram nossos parceiros.”</p>
-        <div class="text-white/60 text-sm mt-3">— Supermercados Max</div>
+      <div class="card p-6 reveal">
+        <h3 class="text-2xl font-bold mb-4">Parceiros & Marcas</h3>
+        <div class="grid grid-cols-3 gap-3 opacity-80 text-center text-sm">
+          <div class="glass p-4 rounded-xl">Daikin</div>
+          <div class="glass p-4 rounded-xl">Midea</div>
+          <div class="glass p-4 rounded-xl">Carrier</div>
+          <div class="glass p-4 rounded-xl">Elgin</div>
+          <div class="glass p-4 rounded-xl">Metalfrio</div>
+          <div class="glass p-4 rounded-xl">Tecumseh</div>
+        </div>
       </div>
-    </div>
-  </section>
-
-  <!-- CTA STRIP -->
-  <section class="relative">
-    <div class="absolute inset-0 bg-hero"></div>
-    <div class="relative max-w-6xl mx-auto px-4 py-10 text-center">
-      <h3 class="text-xl md:text-2xl font-bold">Precisa de rapidez e confiabilidade?</h3>
-      <p class="text-white/75 mt-2">Fale agora com um especialista e receba um orçamento em minutos.</p>
-      <div class="mt-4">
-        <a class="btn btn-primary"
-           href="https://wa.me/5511999999999?text=Olá%20Nevar!%20Preciso%20de%20um%20orçamento%20agora.">WhatsApp Agora</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section id="faq" class="max-w-6xl mx-auto px-4 py-16">
-    <h2 class="text-2xl md:text-3xl font-bold mb-6">Perguntas Frequentes</h2>
-    <div class="space-y-3">
-      <details class="card p-5" open>
-        <summary class="cursor-pointer font-semibold">Atendem emergência 24h?</summary>
-        <p class="text-white/70 mt-2">Sim. Plantão com SLA contratado e deslocamento imediato.</p>
-      </details>
-      <details class="card p-5">
-        <summary class="cursor-pointer font-semibold">Trabalham com garantia?</summary>
-        <p class="text-white/70 mt-2">Garantia em serviço e peças originais com nota fiscal.</p>
-      </details>
-      <details class="card p-5">
-        <summary class="cursor-pointer font-semibold">Emitimos NFS-e/NF-e?</summary>
-        <p class="text-white/70 mt-2">Sim, com certificado A1 e integração fiscal.</p>
-      </details>
     </div>
   </section>
 
   <!-- CONTATO -->
-  <section id="contato" class="max-w-6xl mx-auto px-4 pb-20">
-    <div class="card p-6 md:p-8 max-w-2xl">
-      <h2 class="text-2xl font-bold mb-4">Solicitar Orçamento</h2>
-      <div id="ok" class="hidden mb-3 text-emerald-400 text-sm">
-        Recebemos sua solicitação! Em breve entraremos em contato.
+  <section id="contato" class="max-w-7xl mx-auto px-4 pb-20">
+    <div class="grid lg:grid-cols-2 gap-8">
+      <div class="card p-6 md:p-8 reveal">
+        <h2 class="text-2xl font-bold mb-4">Solicitar Orçamento</h2>
+        <div id="ok" class="hidden mb-3 text-emerald-400 text-sm">
+          Recebemos sua solicitação! Em breve entraremos em contato.
+        </div>
+        <form id="leadForm" class="space-y-3">
+          <select id="servico" class="w-full rounded-xl px-3 py-3 bg-white/5 border border-white/10" required>
+            <option value="">Selecione um serviço</option>
+            <option value="instalacao">Instalação de Ar-Condicionado</option>
+            <option value="vrf">Projeto/Instalação VRF</option>
+            <option value="camara">Câmara Fria</option>
+            <option value="manutencao">Manutenção Preventiva/Corretiva</option>
+            <option value="orcamento">Orçamento de Equipamento</option>
+          </select>
+          <div id="camposDinamicos" class="grid md:grid-cols-2 gap-3"></div>
+          <input id="nome" class="w-full rounded-xl px-3 py-3 bg-white/5 border border-white/10" placeholder="Seu nome" required>
+          <input id="contatoCampo" class="w-full rounded-xl px-3 py-3 bg-white/5 border border-white/10" placeholder="Telefone ou e-mail" required>
+          <textarea id="mensagem" rows="4" class="w-full rounded-xl px-3 py-3 bg-white/5 border border-white/10" placeholder="Descreva o que precisa" required></textarea>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button class="btn btn-primary w-full sm:w-auto" type="submit">Enviar</button>
+            <a class="btn btn-ghost w-full sm:w-auto"
+              href="https://wa.me/5511999999999?text=Olá%20Nevar!%20Quero%20um%20orçamento.">Falar no WhatsApp</a>
+          </div>
+          <p class="text-white/50 text-xs mt-1">Ao enviar, você concorda em ser contatado pela Nevar para este orçamento.</p>
+        </form>
       </div>
-      <form id="leadForm" class="space-y-3">
-        <input id="nome" class="w-full rounded-xl px-3 py-3 bg-white/5 border border-white/10" placeholder="Seu nome" required>
-        <input id="contatoCampo" class="w-full rounded-xl px-3 py-3 bg-white/5 border border-white/10" placeholder="Telefone ou e-mail" required>
-        <textarea id="mensagem" rows="4" class="w-full rounded-xl px-3 py-3 bg-white/5 border border-white/10" placeholder="Descreva o que precisa" required></textarea>
-        <button class="btn btn-primary w-full md:w-auto" type="submit">Enviar</button>
-        <a class="btn btn-ghost w-full md:w-auto"
-           href="https://wa.me/5511999999999?text=Olá%20Nevar!%20Quero%20um%20orçamento.">Falar no WhatsApp</a>
-        <p class="text-white/50 text-xs mt-1">Ao enviar, você concorda em ser contatado pela Nevar para este orçamento.</p>
-      </form>
+
+      <div class="space-y-4 reveal">
+        <div class="card p-6">
+          <h3 class="font-bold">Contato</h3>
+          <p class="text-white/70 text-sm mt-2">
+            Telefone/WhatsApp: (11) 99999-9999<br>
+            E-mail: contato@nevar.com.br<br>
+            Endereço: Sertãozinho/SP — Brasil<br>
+            Horário: Seg a Sex, 08h–18h • Plantão 24h
+          </p>
+        </div>
+        <div class="overflow-hidden rounded-2xl border border-white/10">
+          <!-- Mapa (demonstração) -->
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d58574.078!2d-47.99!3d-21.13!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94b98a96b0d2c2f7%3A0x4a1f9a6a2f2f1fd5!2sSert%C3%A3ozinho%2C%20SP!5e0!3m2!1spt-BR!2sbr!4v1700000000000"
+            width="100%" height="280" style="border:0" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- BOTÃO WA FLUTUANTE -->
-  <a href="https://wa.me/5511999999999?text=Olá%20Nevar!%20Quero%20um%20orçamento."
+  <!-- BOTÃO WHATSAPP FLUTUANTE -->
+  <a href="https://wa.me/5511999999999?text=Olá%20Nevar!%20Preciso%20de%20um%20orçamento."
      class="fixed bottom-5 right-5 btn btn-primary rounded-full shadow-glow">WhatsApp</a>
 
   <!-- FOOTER -->
   <footer class="border-t border-white/10">
-    <div class="max-w-6xl mx-auto px-4 py-8 text-center text-white/60 text-sm">
-      © <span id="year"></span> Nevar • Sertãozinho / SP • contato@nevar.com.br
+    <div class="max-w-7xl mx-auto px-4 py-8 text-center text-white/60 text-sm">
+      © <span id="year"></span> Nevar • Refrigeração Comercial e Industrial • Todos os direitos reservados
     </div>
   </footer>
 
@@ -229,30 +326,103 @@
     // ano
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // contadores animados quando entram na tela
+    // revelar seções ao rolar
+    const io = new IntersectionObserver(es => es.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target); }
+    }), { threshold:.25 });
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+    // contadores
     const counters = document.querySelectorAll('.counter');
     const animate = el => {
-      const target = +el.dataset.target; let current = 0;
-      const step = Math.max(1, Math.round(target / 60));
-      const tick = () => { current += step; el.textContent = current >= target ? target : current; if(current < target) requestAnimationFrame(tick); };
+      const target = +el.dataset.target; let cur = 0;
+      const step = Math.max(1, Math.round(target/60));
+      const tick = () => { cur += step; el.textContent = cur>=target ? target : cur; if(cur<target) requestAnimationFrame(tick); };
       tick();
     };
-    const io = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ animate(e.target); io.unobserve(e.target); }}),{threshold:.6});
-    counters.forEach(c=>io.observe(c));
+    counters.forEach(el=>{
+      const obs = new IntersectionObserver(([e])=>{
+        if(e.isIntersecting){ animate(el); obs.unobserve(el); }
+      },{threshold:.6}); obs.observe(el);
+    });
 
-    // lead (demo): salva no localStorage
+    // produtos (demo) + filtro
+    const produtos = [
+      { id:1, tipo:'split', nome:'Split 24.000 BTU', foto:'https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=1200&auto=format&fit=crop' },
+      { id:2, tipo:'vrf', nome:'VRF 20TR Inverter', foto:'https://images.unsplash.com/photo-1558002038-1055907df827?q=80&w=1200&auto=format&fit=crop' },
+      { id:3, tipo:'camara', nome:'Câmara Fria 20m³', foto:'https://images.unsplash.com/photo-1535338454770-8be78b88306f?q=80&w=1200&auto=format&fit=crop' },
+      { id:4, tipo:'split', nome:'Split 12.000 BTU', foto:'https://images.unsplash.com/photo-1509395176047-4a66953fd231?q=80&w=1200&auto=format&fit=crop' },
+      { id:5, tipo:'vrf', nome:'VRF 40TR Alta Eficiência', foto:'https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1200&auto=format&fit=crop' },
+      { id:6, tipo:'camara', nome:'Câmara Fria 40m³', foto:'https://images.unsplash.com/photo-1563453392212-326f5e854473?q=80&w=1200&auto=format&fit=crop' }
+    ];
+    const grid = document.getElementById('gridProdutos');
+    const render = (filtro='todos')=>{
+      grid.innerHTML = produtos
+        .filter(p => filtro==='todos' || p.tipo===filtro)
+        .map(p=>`
+          <div class="card overflow-hidden reveal">
+            <img src="${p.foto}" alt="${p.nome}" class="w-full h-44 object-cover">
+            <div class="p-5">
+              <div class="font-semibold">${p.nome}</div>
+              <div class="text-white/60 text-sm mt-1">Consulte capacidades, ficha técnica e prazo.</div>
+              <a href="#contato" class="text-brand-500 text-sm mt-3 inline-block">Solicitar cotação →</a>
+            </div>
+          </div>
+        `).join('');
+      grid.querySelectorAll('.reveal').forEach(el=>el.classList.add('show'));
+    };
+    render();
+    document.getElementById('filtroTipo').addEventListener('change', e=>render(e.target.value));
+
+    // formulário inteligente
+    const campos = document.getElementById('camposDinamicos');
+    const servico = document.getElementById('servico');
+    const buildFields = (v) => {
+      const map = {
+        instalacao: [
+          { id:'ambiente', ph:'Ambiente (comercial/residencial)' },
+          { id:'btus', ph:'Capacidade (BTU/TR)' }
+        ],
+        vrf: [
+          { id:'metragem', ph:'Metragem/zonas' },
+          { id:'prazo', ph:'Prazo desejado' }
+        ],
+        camara: [
+          { id:'volume', ph:'Volume (m³)' },
+          { id:'temperatura', ph:'Temperatura de operação (°C)' }
+        ],
+        manutencao: [
+          { id:'qtd', ph:'Qtd. de equipamentos' },
+          { id:'frequencia', ph:'Frequência (mensal/trimestral)' }
+        ],
+        orcamento: [
+          { id:'modelo', ph:'Modelo/Capacidade desejada' },
+          { id:'uso', ph:'Uso (ex.: cozinha, sala de TI)' }
+        ]
+      };
+      const arr = map[v] || [];
+      campos.innerHTML = arr.map(f=>`<input id="${f.id}" class="w-full rounded-xl px-3 py-3 bg-white/5 border border-white/10" placeholder="${f.ph}">`).join('');
+    };
+    servico.addEventListener('change', e=>buildFields(e.target.value));
+
+    // submit (demo): salva no localStorage
     const form = document.getElementById('leadForm');
     form.addEventListener('submit', function(e){
       e.preventDefault();
-      const nome = document.getElementById('nome').value.trim();
-      const contato = document.getElementById('contatoCampo').value.trim();
-      const msg = document.getElementById('mensagem').value.trim();
+      const lead = {
+        servico: servico.value,
+        nome: document.getElementById('nome').value.trim(),
+        contato: document.getElementById('contatoCampo').value.trim(),
+        mensagem: document.getElementById('mensagem').value.trim(),
+        data: new Date().toISOString()
+      };
+      (lead.extra = {}), campos.querySelectorAll('input').forEach(i=>lead.extra[i.id]=i.value.trim());
       const leads = JSON.parse(localStorage.getItem('nevar_leads') || '[]');
-      leads.push({ nome, contato, mensagem: msg, data: new Date().toISOString() });
+      leads.push(lead);
       localStorage.setItem('nevar_leads', JSON.stringify(leads));
       document.getElementById('ok').classList.remove('hidden');
-      form.reset();
-      setTimeout(()=>document.getElementById('ok').classList.add('hidden'), 3500);
+      form.reset(); campos.innerHTML='';
+       setTimeout(()=>document.getElementById('ok').classList.add('hidden'), 3500);
     });
   </script>
 </body>
